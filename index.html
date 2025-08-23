@@ -659,121 +659,121 @@
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-32 relative overflow-hidden section">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-20">
-        <div class="text-reveal">
-          <h2 class="text-reveal-inner text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-            <span class="text-primary-400">Contact</span> Us
-          </h2>
-        </div>
-        <div class="w-32 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-8"></div>
-        <div class="text-reveal">
-          <p class="text-reveal-inner text-gray-400 max-w-3xl mx-auto text-lg">
-            Get in touch for VIP reservations, private events, or any inquiries about our club.
-          </p>
-        </div>
+    <section id="contact" class="py-20 relative overflow-hidden section"> <!-- reduced py-32 to py-20 -->
+  <div class="container mx-auto px-4"> <!-- reduced px -->
+    <div class="text-center mb-14"> <!-- reduced mb-20 -->
+      <div class="text-reveal">
+        <h2 class="text-reveal-inner text-3xl md:text-4xl lg:text-5xl font-bold font-display mb-4">
+          <span class="text-primary-400">Contact</span> Us
+        </h2>
+      </div>
+      <div class="w-24 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-6"></div>
+      <div class="text-reveal">
+        <p class="text-reveal-inner text-gray-400 max-w-2xl mx-auto text-base">
+          Get in touch for VIP reservations, private events, or any inquiries about our club.
+        </p>
+      </div>
+    </div>
+    
+    <div class="flex flex-col lg:flex-row gap-10 max-w-6xl mx-auto"> <!-- reduced gap and max-width -->
+      <div class="lg:w-1/2">
+        <form class="glass-card rounded-xl p-6" id="contact-form"> <!-- reduced padding and rounding -->
+          <div class="mb-6">
+            <label for="name" class="block text-gray-300 mb-2 font-medium text-base">Full Name</label>
+            <input type="text" id="name" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" placeholder="Your name">
+          </div>
+          <div class="mb-6">
+            <label for="email" class="block text-gray-300 mb-2 font-medium text-base">Email Address</label>
+            <input type="email" id="email" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" placeholder="your@email.com">
+          </div>
+          <div class="mb-6">
+            <label for="subject" class="block text-gray-300 mb-2 font-medium text-base">Subject</label>
+            <select id="subject" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm">
+              <option value="">Select a subject</option>
+              <option value="vip">VIP Reservations</option>
+              <option value="events">Private Events</option>
+              <option value="general">General Inquiry</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="mb-8">
+            <label for="message" class="block text-gray-300 mb-2 font-medium text-base">Your Message</label>
+            <textarea id="message" rows="4" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm resize-none" placeholder="Tell us about your inquiry..."></textarea>
+          </div>
+          <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-xl hover:shadow-primary-500/50 magnetic-btn ripple text-base">
+            Send Message
+          </button>
+        </form>
       </div>
       
-      <div class="flex flex-col lg:flex-row gap-16 max-w-7xl mx-auto">
-        <div class="lg:w-1/2">
-          <form class="glass-card rounded-2xl p-10" id="contact-form">
-            <div class="mb-8">
-              <label for="name" class="block text-gray-300 mb-3 font-medium text-lg">Full Name</label>
-              <input type="text" id="name" required class="w-full px-6 py-4 bg-dark-800/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-lg backdrop-blur-sm" placeholder="Your name">
-            </div>
-            <div class="mb-8">
-              <label for="email" class="block text-gray-300 mb-3 font-medium text-lg">Email Address</label>
-              <input type="email" id="email" required class="w-full px-6 py-4 bg-dark-800/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-lg backdrop-blur-sm" placeholder="your@email.com">
-            </div>
-            <div class="mb-8">
-              <label for="subject" class="block text-gray-300 mb-3 font-medium text-lg">Subject</label>
-              <select id="subject" required class="w-full px-6 py-4 bg-dark-800/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-lg backdrop-blur-sm">
-                <option value="">Select a subject</option>
-                <option value="vip">VIP Reservations</option>
-                <option value="events">Private Events</option>
-                <option value="general">General Inquiry</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="mb-10">
-              <label for="message" class="block text-gray-300 mb-3 font-medium text-lg">Your Message</label>
-              <textarea id="message" rows="5" required class="w-full px-6 py-4 bg-dark-800/50 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-lg backdrop-blur-sm resize-none" placeholder="Tell us about your inquiry..."></textarea>
-            </div>
-            <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-primary-500/50 magnetic-btn ripple text-lg">
-              Send Message
-            </button>
-          </form>
-        </div>
-        
-        <div class="lg:w-1/2">
-          <div class="glass-card rounded-2xl p-10 h-full">
-            <h3 class="text-3xl font-bold mb-10">Club Information</h3>
-            
-            <div class="space-y-8">
-              <div class="flex items-start">
-                <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-6 animate-glow flex-shrink-0">
-                  <i class="fas fa-map-marker-alt text-white text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold mb-2 text-xl">Location</h4>
-                  <p class="text-gray-300 text-lg">Geernaartstraat 2, 8000 Brugge, Belgium</p>
-                </div>
+      <div class="lg:w-1/2">
+        <div class="glass-card rounded-xl p-6 h-full"> <!-- reduced padding and rounding -->
+          <h3 class="text-2xl font-bold mb-6">Club Information</h3>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-3 rounded-lg mr-4 animate-glow flex-shrink-0">
+                <i class="fas fa-map-marker-alt text-white text-lg"></i>
               </div>
-              
-              <div class="flex items-start">
-                <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-6 animate-glow flex-shrink-0">
-                  <i class="fas fa-phone-alt text-white text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold mb-2 text-xl">Phone</h4>
-                  <p class="text-gray-300 text-lg">+32 50 123 456</p>
-                  <p class="text-gray-300 text-lg">VIP: +32 50 987 654</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-6 animate-glow flex-shrink-0">
-                  <i class="fas fa-envelope text-white text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold mb-2 text-xl">Email</h4>
-                  <p class="text-gray-300 text-lg">info@zenzo-nightclub.com</p>
-                  <p class="text-gray-300 text-lg">vip@zenzo-nightclub.com</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-6 animate-glow flex-shrink-0">
-                  <i class="fas fa-clock text-white text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold mb-2 text-xl">Opening Hours</h4>
-                  <p class="text-gray-300 text-lg">Thu-Sat: 10 PM - 4 AM</p>
-                  <p class="text-gray-300 text-lg">Sun-Wed: Closed</p>
-                </div>
+              <div>
+                <h4 class="font-bold mb-1 text-lg">Location</h4>
+                <p class="text-gray-300 text-base">Geernaartstraat 2, 8000 Brugge, Belgium</p>
               </div>
             </div>
             
-            <div class="mt-12">
-              <h4 class="font-bold mb-6 text-xl">Follow Us</h4>
-              <div class="flex space-x-6">
-                <a href="#" class="w-14 h-14 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
-                  <i class="fab fa-facebook-f text-xl"></i>
-                </a>
-                <a href="#" class="w-14 h-14 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
-                  <i class="fab fa-instagram text-xl"></i>
-                </a>
-                <a href="#" class="w-14 h-14 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
-                  <i class="fab fa-twitter text-xl"></i>
-                </a>
+            <div class="flex items-start">
+              <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-3 rounded-lg mr-4 animate-glow flex-shrink-0">
+                <i class="fas fa-phone-alt text-white text-lg"></i>
               </div>
+              <div>
+                <h4 class="font-bold mb-1 text-lg">Phone</h4>
+                <p class="text-gray-300 text-base">+32 50 123 456</p>
+                <p class="text-gray-300 text-base">VIP: +32 50 987 654</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-3 rounded-lg mr-4 animate-glow flex-shrink-0">
+                <i class="fas fa-envelope text-white text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold mb-1 text-lg">Email</h4>
+                <p class="text-gray-300 text-base">info@zenzo-nightclub.com</p>
+                <p class="text-gray-300 text-base">vip@zenzo-nightclub.com</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-3 rounded-lg mr-4 animate-glow flex-shrink-0">
+                <i class="fas fa-clock text-white text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold mb-1 text-lg">Opening Hours</h4>
+                <p class="text-gray-300 text-base">Thu-Sat: 10 PM - 4 AM</p>
+                <p class="text-gray-300 text-base">Sun-Wed: Closed</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <h4 class="font-bold mb-4 text-lg">Follow Us</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                <i class="fab fa-facebook-f text-lg"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                <i class="fab fa-instagram text-lg"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                <i class="fab fa-twitter text-lg"></i>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Footer -->
   <footer class="bg-dark-900 text-gray-400 py-20">
