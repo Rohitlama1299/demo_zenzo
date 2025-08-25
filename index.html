@@ -233,7 +233,19 @@
     .mobile-menu.active {
       transform: translateX(0);
     }
-    
+    #mobile-menu {
+  z-index: 99999 !important;
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  background: #111 !important;
+}
+
+#mobile-menu a, #mobile-menu button {
+  color: #fff !important;
+}
+
+
     /* Text Reveal */
     .text-reveal {
       overflow: hidden;
@@ -320,6 +332,58 @@
         display: none;
       }
     }
+
+   /* Language Selector Styles */
+.language-selector {
+  position: relative;
+  display: inline-block;
+  z-index: 1001; /* Higher z-index to prevent disappearing */
+}
+
+.language-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  min-width: 120px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1002; /* Higher than the selector */
+  margin-top: 10px;
+}
+
+.language-dropdown a {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.language-dropdown a:hover {
+  background: rgba(255, 77, 0, 0.2);
+  color: #ff4d00;
+}
+
+.language-selector:hover .language-dropdown {
+  display: block;
+}
+
+.current-language {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.current-language:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
   </style>
 </head>
 <body class="gradient-bg text-gray-100 font-sans antialiased">
@@ -341,27 +405,40 @@
   </div>
   
   <!-- Desktop Navigation -->
-  <div class="hidden md:flex space-x-8 text-lg font-medium">
-    <a href="#home" class="relative group hover:text-primary-400 transition-all duration-300">
+  <div class="hidden md:flex space-x-8 text-lg font-medium items-center">
+    <a href="#home" class="relative group hover:text-primary-400 transition-all duration-300" data-translate="nav.home">
       Home
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
-    <a href="#gallery" class="relative group hover:text-primary-400 transition-all duration-300">
+    <a href="#gallery" class="relative group hover:text-primary-400 transition-all duration-300" data-translate="nav.gallery">
       Gallery
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
-    <a href="#vip" class="relative group hover:text-primary-400 transition-all duration-300">
+    <a href="#vip" class="relative group hover:text-primary-400 transition-all duration-300" data-translate="nav.vip">
       VIP
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
-    <a href="#about" class="relative group hover:text-primary-400 transition-all duration-300">
+    <a href="#about" class="relative group hover:text-primary-400 transition-all duration-300" data-translate="nav.about">
       About
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
-    <a href="#contact" class="relative group hover:text-primary-400 transition-all duration-300">
+    <a href="#contact" class="relative group hover:text-primary-400 transition-all duration-300" data-translate="nav.contact">
       Contact
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
+    
+    <!-- Language Selector -->
+    <div class="language-selector ml-4">
+      <div class="current-language flex items-center">
+        <span id="current-lang" class="mr-1">EN</span>
+        <i class="fas fa-chevron-down text-xs"></i>
+      </div>
+      <div class="language-dropdown">
+        <a href="#" data-lang="en">English (EN)</a>
+        <a href="#" data-lang="nl">Nederlands (NL)</a>
+        <a href="#" data-lang="fr">Français (FR)</a>
+      </div>
+    </div>
   </div>
   
   <!-- Mobile Menu Button -->
@@ -382,11 +459,11 @@
         </button>
       </div>
       <div class="flex flex-col space-y-6 flex-1 justify-center">
-        <a href="#home" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300">Home</a>
-        <a href="#gallery" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300">Gallery</a>
-        <a href="#vip" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300">VIP</a>
-        <a href="#about" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300">About</a>
-        <a href="#contact" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300">Contact</a>
+        <a href="#home" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.home">Home</a>
+        <a href="#gallery" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.gallery">Gallery</a>
+        <a href="#vip" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.vip">VIP</a>
+        <a href="#about" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.about">About</a>
+        <a href="#contact" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.contact">Contact</a>
       </div>
       <div class="mt-12 pt-6 border-t border-gray-700">
         <div class="flex space-x-6">
@@ -396,6 +473,15 @@
           <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">
             <i class="fab fa-instagram text-xl"></i>
           </a>
+        </div>
+        <!-- Mobile Language Selector -->
+        <div class="mt-6">
+          <h4 class="text-white mb-3" data-translate="language">Language</h4>
+          <div class="flex space-x-4">
+            <button class="text-gray-400 hover:text-primary-400 transition-colors duration-300 language-btn" data-lang="en">EN</button>
+            <button class="text-gray-400 hover:text-primary-400 transition-colors duration-300 language-btn" data-lang="nl">NL</button>
+            <button class="text-gray-400 hover:text-primary-400 transition-colors duration-300 language-btn" data-lang="fr">FR</button>
+          </div>
         </div>
       </div>
     </div>
@@ -420,16 +506,16 @@
         </h1>
       </div>
       <div class="text-reveal visible" style="transition-delay: 0.2s;">
-        <p class="text-reveal-inner text-xl sm:text-2xl md:text-3xl text-gray-300 mb-12 leading-relaxed">
+        <p class="text-reveal-inner text-xl sm:text-2xl md:text-3xl text-gray-300 mb-12 leading-relaxed" data-translate="hero.subtitle">
           Brugge's newest nightlife destination where music, luxury,<br class="hidden md:block"> and unforgettable experiences come together.
         </p>
       </div>
       <div class="text-reveal visible" style="transition-delay: 0.4s;">
         <div class="text-reveal-inner flex flex-col sm:flex-row justify-center gap-6">
-          <a href="#vip" class="px-10 py-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-primary-500/50 magnetic-btn ripple">
+          <a href="#vip" class="px-10 py-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-primary-500/50 magnetic-btn ripple" data-translate="hero.vipButton">
             VIP Experience
           </a>
-          <a href="#contact" class="px-10 py-4 bg-transparent border-2 border-primary-500 hover:bg-primary-500/20 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 magnetic-btn ripple">
+          <a href="#contact" class="px-10 py-4 bg-transparent border-2 border-primary-500 hover:bg-primary-500/20 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 magnetic-btn ripple" data-translate="hero.contactButton">
             Contact Us
           </a>
         </div>
@@ -452,12 +538,12 @@
       <div class="text-center mb-16">
         <div class="text-reveal">
           <h2 class="text-reveal-inner text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-             <span class="text-primary-400">Gallery</span>
+             <span class="text-primary-400" data-translate="gallery.title">Gallery</span>
           </h2>
         </div>
         <div class="w-32 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-8"></div>
         <div class="text-reveal">
-          <p class="text-reveal-inner text-gray-400 max-w-3xl mx-auto text-lg">
+          <p class="text-reveal-inner text-gray-400 max-w-3xl mx-auto text-lg" data-translate="gallery.subtitle">
             Experience the vibrant atmosphere of Zenzo through our visual journey of unforgettable nights.
           </p>
         </div>
@@ -495,12 +581,12 @@
     <div class="text-center mb-20">
       <div class="text-reveal">
         <h2 class="text-reveal-inner text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
-          <span class="text-primary-400">VIP</span> Experience
+          <span class="text-primary-400" data-translate="vip.title">VIP</span> <span data-translate="vip.experience">Experience</span>
         </h2>
       </div>
       <div class="w-32 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-8"></div>
       <div class="text-reveal">
-        <p class="text-reveal-inner text-gray-400 max-w-3xl mx-auto text-lg">
+        <p class="text-reveal-inner text-gray-400 max-w-3xl mx-auto text-lg" data-translate="vip.subtitle">
           Elevate your night with our exclusive VIP services designed for those who demand the best.
         </p>
       </div>
@@ -515,23 +601,23 @@
             <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-4 animate-glow">
               <i class="fas fa-glass-cheers text-white text-2xl"></i>
             </div>
-            <h3 class="text-2xl font-bold">Premium Bottle Service</h3>
+            <h3 class="text-2xl font-bold" data-translate="vip.bottleService.title">Premium Bottle Service</h3>
           </div>
-          <p class="text-gray-300 mb-8 text-lg">
+          <p class="text-gray-300 mb-8 text-lg" data-translate="vip.bottleService.description">
             Enjoy our selection of premium spirits and champagne served at your private table.
           </p>
           <div class="space-y-4 mt-auto">
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Exclusive liquor selection including Dom Pérignon</span>
+              <span data-translate="vip.bottleService.benefit1">Exclusive liquor selection including Dom Pérignon</span>
             </div>
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Personalized mixology service</span>
+              <span data-translate="vip.bottleService.benefit2">Personalized mixology service</span>
             </div>
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Dedicated VIP host</span>
+              <span data-translate="vip.bottleService.benefit3">Dedicated VIP host</span>
             </div>
           </div>
         </div>
@@ -544,23 +630,23 @@
             <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-4 animate-glow">
               <i class="fas fa-couch text-white text-2xl"></i>
             </div>
-            <h3 class="text-2xl font-bold">Private Lounge</h3>
+            <h3 class="text-2xl font-bold" data-translate="vip.lounge.title">Private Lounge</h3>
           </div>
-          <p class="text-gray-300 mb-8 text-lg">
+          <p class="text-gray-300 mb-8 text-lg" data-translate="vip.lounge.description">
             Exclusive lounge areas with privacy and the best views.
           </p>
           <div class="space-y-4 mt-auto">
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Reserved luxury seating</span>
+              <span data-translate="vip.lounge.benefit1">Reserved luxury seating</span>
             </div>
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Private VIP entrance</span>
+              <span data-translate="vip.lounge.benefit2">Private VIP entrance</span>
             </div>
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Premium sound system</span>
+              <span data-translate="vip.lounge.benefit3">Premium sound system</span>
             </div>
           </div>
         </div>
@@ -573,23 +659,23 @@
             <div class="bg-gradient-to-r from-primary-400 to-primary-600 p-4 rounded-xl mr-4 animate-glow">
               <i class="fas fa-users text-white text-2xl"></i>
             </div>
-            <h3 class="text-2xl font-bold">Private Party</h3>
+            <h3 class="text-2xl font-bold" data-translate="vip.party.title">Private Party</h3>
           </div>
-          <p class="text-gray-300 mb-8 text-lg">
+          <p class="text-gray-300 mb-8 text-lg" data-translate="vip.party.description">
             Host unforgettable events with our private party packages.
           </p>
           <div class="space-y-4 mt-auto">
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Dedicated event coordinator</span>
+              <span data-translate="vip.party.benefit1">Dedicated event coordinator</span>
             </div>
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Customizable music and lighting</span>
+              <span data-translate="vip.party.benefit2">Customizable music and lighting</span>
             </div>
             <div class="flex items-start">
               <i class="fas fa-check text-primary-400 mt-1 mr-3 flex-shrink-0"></i>
-              <span>Exclusive VIP area access</span>
+              <span data-translate="vip.party.benefit3">Exclusive VIP area access</span>
             </div>
           </div>
         </div>
@@ -597,7 +683,7 @@
     </div>
 
     <div class="mt-16 text-center">
-      <a href="#contact" class="inline-block bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold px-12 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-primary-500/50 magnetic-btn ripple text-lg">
+      <a href="#contact" class="inline-block bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold px-12 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-primary-500/50 magnetic-btn ripple text-lg" data-translate="vip.cta">
         Enquire About VIP
       </a>
     </div>
@@ -612,33 +698,33 @@
         <div class="lg:w-1/2">
           <div class="text-reveal">
             <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-display mb-6">
-            About <span class="text-primary-400">Zenzo</span>
+            <span data-translate="about.title">About</span> <span class="text-primary-400">Zenzo</span>
           </h2>
-            <p class="text-reveal-inner text-gray-300 mb-8 leading-relaxed text-lg">
+            <p class="text-reveal-inner text-gray-300 mb-8 leading-relaxed text-lg" data-translate="about.description1">
               Zenzo is Brugge's newest and most exciting nightlife destination, opening its doors to create unforgettable nights. Our vision is to blend cutting-edge music, sophisticated design, and exceptional service.
             </p>
           </div>
           <div class="text-reveal">
-            <p class="text-reveal-inner text-gray-300 mb-12 leading-relaxed text-lg">
+            <p class="text-reveal-inner text-gray-300 mb-12 leading-relaxed text-lg" data-translate="about.description2">
               Featuring a state-of-the-art sound system, immersive lighting design, and carefully curated international DJ talent, Zenzo is set to become the heartbeat of Brugge's nightlife scene.
             </p>
           </div>
           <div class="grid grid-cols-2 gap-8 mb-12">
             <div class="text-center glass-card rounded-xl p-6">
               <div class="text-primary-400 text-4xl font-bold mb-2 neon-text" data-count="2025">2025</div>
-              <div class="text-gray-400 text-lg">Established</div>
+              <div class="text-gray-400 text-lg" data-translate="about.established">Established</div>
             </div>
             <div class="text-center glass-card rounded-xl p-6">
               <div class="text-primary-400 text-4xl font-bold mb-2 neon-text" data-count="3">3</div>
-              <div class="text-gray-400 text-lg">VIP Areas</div>
+              <div class="text-gray-400 text-lg" data-translate="about.vipAreas">VIP Areas</div>
             </div>
             <div class="text-center glass-card rounded-xl p-6">
               <div class="text-primary-400 text-4xl font-bold mb-2 neon-text" data-count="500">500+</div>
-              <div class="text-gray-400 text-lg">Capacity</div>
+              <div class="text-gray-400 text-lg" data-translate="about.capacity">Capacity</div>
             </div>
             <div class="text-center glass-card rounded-xl p-6">
               <div class="text-primary-400 text-4xl font-bold mb-2 neon-text" data-count="24">24/7</div>
-              <div class="text-gray-400 text-lg">Security</div>
+              <div class="text-gray-400 text-lg" data-translate="about.security">Security</div>
             </div>
           </div>
         </div>
@@ -648,8 +734,8 @@
               <img src="images/example4.jpg" alt="Zenzo Nightclub Interior" class="w-full h-auto">
               <div class="absolute inset-0 bg-gradient-to-t from-primary-400/20 to-transparent"></div>
               <div class="absolute bottom-6 left-6 right-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Premium Experience</h3>
-                <p class="text-gray-200">Where luxury meets entertainment</p>
+                <h3 class="text-white text-2xl font-bold mb-2" data-translate="about.premiumTitle">Premium Experience</h3>
+                <p class="text-gray-200" data-translate="about.premiumSubtitle">Where luxury meets entertainment</p>
               </div>
             </div>
           </div>
@@ -664,12 +750,12 @@
     <div class="text-center mb-14"> <!-- reduced mb-20 -->
       <div class="text-reveal">
         <h2 class="text-reveal-inner text-3xl md:text-4xl lg:text-5xl font-bold font-display mb-4">
-          <span class="text-primary-400">Contact</span> Us
+          <span class="text-primary-400" data-translate="contact.title">Contact</span> <span data-translate="contact.us">Us</span>
         </h2>
       </div>
       <div class="w-24 h-1 bg-gradient-to-r from-primary-600 to-primary-400 mx-auto mb-6"></div>
       <div class="text-reveal">
-        <p class="text-reveal-inner text-gray-400 max-w-2xl mx-auto text-base">
+        <p class="text-reveal-inner text-gray-400 max-w-2xl mx-auto text-base" data-translate="contact.subtitle">
           Get in touch for VIP reservations, private events, or any inquiries about our club.
         </p>
       </div>
@@ -679,28 +765,28 @@
       <div class="lg:w-1/2">
         <form class="glass-card rounded-xl p-6" id="contact-form"> <!-- reduced padding and rounding -->
           <div class="mb-6">
-            <label for="name" class="block text-gray-300 mb-2 font-medium text-base">Full Name</label>
-            <input type="text" id="name" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" placeholder="Your name">
+            <label for="name" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.name">Full Name</label>
+            <input type="text" id="name" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" data-translate-placeholder="contact.form.namePlaceholder" placeholder="Your name">
           </div>
           <div class="mb-6">
-            <label for="email" class="block text-gray-300 mb-2 font-medium text-base">Email Address</label>
-            <input type="email" id="email" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" placeholder="your@email.com">
+            <label for="email" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.email">Email Address</label>
+            <input type="email" id="email" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" data-translate-placeholder="contact.form.emailPlaceholder" placeholder="your@email.com">
           </div>
           <div class="mb-6">
-            <label for="subject" class="block text-gray-300 mb-2 font-medium text-base">Subject</label>
+            <label for="subject" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.subject">Subject</label>
             <select id="subject" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm">
-              <option value="">Select a subject</option>
-              <option value="vip">VIP Reservations</option>
-              <option value="events">Private Events</option>
-              <option value="general">General Inquiry</option>
-              <option value="other">Other</option>
+              <option value="" data-translate="contact.form.subjectPlaceholder">Select a subject</option>
+              <option value="vip" data-translate="contact.form.subjectVIP">VIP Reservations</option>
+              <option value="events" data-translate="contact.form.subjectEvents">Private Events</option>
+              <option value="general" data-translate="contact.form.subjectGeneral">General Inquiry</option>
+              <option value="other" data-translate="contact.form.subjectOther">Other</option>
             </select>
           </div>
           <div class="mb-8">
-            <label for="message" class="block text-gray-300 mb-2 font-medium text-base">Your Message</label>
-            <textarea id="message" rows="4" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm resize-none" placeholder="Tell us about your inquiry..."></textarea>
+            <label for="message" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.message">Your Message</label>
+            <textarea id="message" rows="4" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm resize-none" data-translate-placeholder="contact.form.messagePlaceholder" placeholder="Tell us about your inquiry..."></textarea>
           </div>
-          <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-xl hover:shadow-primary-500/50 magnetic-btn ripple text-base">
+          <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-xl hover:shadow-primary-500/50 magnetic-btn ripple text-base" data-translate="contact.form.submit">
             Send Message
           </button>
         </form>
@@ -708,7 +794,7 @@
       
       <div class="lg:w-1/2">
         <div class="glass-card rounded-xl p-6 h-full"> <!-- reduced padding and rounding -->
-          <h3 class="text-2xl font-bold mb-6">Club Information</h3>
+          <h3 class="text-2xl font-bold mb-6" data-translate="contact.infoTitle">Club Information</h3>
           
           <div class="space-y-6">
             <div class="flex items-start">
@@ -716,7 +802,7 @@
                 <i class="fas fa-map-marker-alt text-white text-lg"></i>
               </div>
               <div>
-                <h4 class="font-bold mb-1 text-lg">Location</h4>
+                <h4 class="font-bold mb-1 text-lg" data-translate="contact.infoLocation">Location</h4>
                 <p class="text-gray-300 text-base">Geernaartstraat 2, 8000 Brugge, Belgium</p>
               </div>
             </div>
@@ -726,7 +812,7 @@
                 <i class="fas fa-phone-alt text-white text-lg"></i>
               </div>
               <div>
-                <h4 class="font-bold mb-1 text-lg">Phone</h4>
+                <h4 class="font-bold mb-1 text-lg" data-translate="contact.infoPhone">Phone</h4>
                 <p class="text-gray-300 text-base">+32 50 123 456</p>
                 <p class="text-gray-300 text-base">VIP: +32 50 987 654</p>
               </div>
@@ -737,7 +823,7 @@
                 <i class="fas fa-envelope text-white text-lg"></i>
               </div>
               <div>
-                <h4 class="font-bold mb-1 text-lg">Email</h4>
+                <h4 class="font-bold mb-1 text-lg" data-translate="contact.infoEmail">Email</h4>
                 <p class="text-gray-300 text-base">info@zenzo-nightclub.com</p>
                 <p class="text-gray-300 text-base">vip@zenzo-nightclub.com</p>
               </div>
@@ -748,7 +834,7 @@
                 <i class="fas fa-clock text-white text-lg"></i>
               </div>
               <div>
-                <h4 class="font-bold mb-1">Opening Hours</h4>
+                <h4 class="font-bold mb-1" data-translate="contact.infoHours">Opening Hours</h4>
                   <p class="text-gray-300">Monday - Thursday: 12 AM - 3 AM</p>
                   <p class="text-gray-300">Friday - Saturday: 12 AM - 4 AM</p>
                   <p class="text-gray-300">Sunday: Closed</p>
@@ -757,7 +843,7 @@
           </div>
           
           <div class="mt-8">
-            <h4 class="font-bold mb-4 text-lg">Follow Us</h4>
+            <h4 class="font-bold mb-4 text-lg" data-translate="contact.infoFollow">Follow Us</h4>
             <div class="flex space-x-4">
               <a href="#" class="w-10 h-10 bg-dark-800 hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-600 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
                 <i class="fab fa-facebook-f text-lg"></i>
@@ -785,7 +871,7 @@
             <img src="images/logo.png" alt="Zenzo Logo" class="h-12 w-auto mb-4">
             <span class="ml-3 text-2xl font-bold text-white">ZENZO</span>
           </div>
-          <p class="mb-6 text-lg leading-relaxed">
+          <p class="mb-6 text-lg leading-relaxed" data-translate="footer.description">
             Brugge's newest premier nightlife destination where music and unforgettable experiences come together.
           </p>
           <div class="flex space-x-4">
@@ -799,18 +885,18 @@
         </div>
         
         <div>
-          <h4 class="text-white font-bold text-xl mb-6">Quick Links</h4>
+          <h4 class="text-white font-bold text-xl mb-6" data-translate="footer.linksTitle">Quick Links</h4>
           <ul class="space-y-3">
-            <li><a href="#home" class="hover:text-primary-400 transition-all duration-300 text-lg">Home</a></li>
-            <li><a href="#gallery" class="hover:text-primary-400 transition-all duration-300 text-lg">Gallery</a></li>
-            <li><a href="#vip" class="hover:text-primary-400 transition-all duration-300 text-lg">VIP Experience</a></li>
-            <li><a href="#about" class="hover:text-primary-400 transition-all duration-300 text-lg">About</a></li>
-            <li><a href="#contact" class="hover:text-primary-400 transition-all duration-300 text-lg">Contact</a></li>
+            <li><a href="#home" class="hover:text-primary-400 transition-all duration-300 text-lg" data-translate="nav.home">Home</a></li>
+            <li><a href="#gallery" class="hover:text-primary-400 transition-all duration-300 text-lg" data-translate="nav.gallery">Gallery</a></li>
+            <li><a href="#vip" class="hover:text-primary-400 transition-all duration-300 text-lg" data-translate="nav.vip">VIP Experience</a></li>
+            <li><a href="#about" class="hover:text-primary-400 transition-all duration-300 text-lg" data-translate="nav.about">About</a></li>
+            <li><a href="#contact" class="hover:text-primary-400 transition-all duration-300 text-lg" data-translate="nav.contact">Contact</a></li>
           </ul>
         </div>
         
         <div>
-          <h4 class="text-white font-bold text-xl mb-6">Contact Info</h4>
+          <h4 class="text-white font-bold text-xl mb-6" data-translate="footer.contactTitle">Contact Info</h4>
           <div class="space-y-3">
             <p class="text-lg">Geernaartstraat 2, 8000 Brugge</p>
             <p class="text-lg">+32 50 123 456</p>
@@ -820,7 +906,7 @@
       </div>
       
       <div class="pt-8 border-t border-gray-800 text-center">
-        <p class="text-lg">&copy; 2025 Zenzo Nightclub. All Rights Reserved.</p>
+        <p class="text-lg">&copy; 2025 Zenzo Nightclub. <span data-translate="footer.rights">All Rights Reserved</span>.</p>
       </div>
     </div>
   </footer>
@@ -830,7 +916,398 @@
     <i class="fas fa-arrow-up text-xl"></i>
   </a>
 
+  <!-- Add this just before </body> -->
+<div id="new-mobile-menu" class="fixed inset-0 bg-black bg-opacity-95 z-[99999] flex flex-col p-8 transition-transform duration-500 transform translate-x-full">
+  <div class="flex justify-between items-center mb-10">
+    <img src="images/logo.png" alt="Zenzo Logo" class="h-12 w-auto">
+    <button id="new-close-mobile-menu" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+  </div>
+  <nav class="flex flex-col space-y-8 text-xl font-semibold">
+    <a href="#home" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.home">Home</a>
+    <a href="#gallery" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.gallery">Gallery</a>
+    <a href="#vip" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.vip">VIP</a>
+    <a href="#about" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.about">About</a>
+    <a href="#contact" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.contact">Contact</a>
+  </nav>
+  <div class="mt-12 pt-8 border-t border-gray-700">
+    <h4 class="text-white mb-4" data-translate="language">Language</h4>
+    <div class="flex space-x-6">
+      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="en">EN</button>
+      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="nl">NL</button>
+      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="fr">FR</button>
+    </div>
+  </div>
+</div>
+
   <script>
+ // Language Translation System
+const translations = {
+  en: {
+    // Navigation
+    "nav.home": "Home",
+    "nav.gallery": "Gallery",
+    "nav.vip": "VIP",
+    "nav.about": "About",
+    "nav.contact": "Contact",
+    
+    // Hero Section
+    "hero.subtitle": "Brugge's newest nightlife destination where music, luxury, and unforgettable experiences come together.",
+    "hero.vipButton": "VIP Experience",
+    "hero.contactButton": "Contact Us",
+    
+    // Gallery Section
+    "gallery.title": "Gallery",
+    "gallery.subtitle": "Experience the vibrant atmosphere of Zenzo through our visual journey of unforgettable nights.",
+    
+    // VIP Section
+    "vip.title": "VIP",
+    "vip.experience": "Experience",
+    "vip.subtitle": "Elevate your night with our exclusive VIP services designed for those who demand the best.",
+    "vip.bottleService.title": "Premium Bottle Service",
+    "vip.bottleService.description": "Enjoy our selection of premium spirits and champagne served at your private table.",
+    "vip.bottleService.benefit1": "Exclusive liquor selection including Dom Pérignon",
+    "vip.bottleService.benefit2": "Personalized mixology service",
+    "vip.bottleService.benefit3": "Dedicated VIP host",
+    "vip.lounge.title": "Private Lounge",
+    "vip.lounge.description": "Exclusive lounge areas with privacy and the best views.",
+    "vip.lounge.benefit1": "Reserved luxury seating",
+    "vip.lounge.benefit2": "Private VIP entrance",
+    "vip.lounge.benefit3": "Premium sound system",
+    "vip.party.title": "Private Party",
+    "vip.party.description": "Host unforgettable events with our private party packages.",
+    "vip.party.benefit1": "Dedicated event coordinator",
+    "vip.party.benefit2": "Customizable music and lighting",
+    "vip.party.benefit3": "Exclusive VIP area access",
+    "vip.cta": "Enquire About VIP",
+    
+    // About Section
+    "about.title": "About",
+    "about.description1": "Zenzo is Brugge's newest and most exciting nightlife destination, opening its doors to create unforgettable nights. Our vision is to blend cutting-edge music, sophisticated design, and exceptional service.",
+    "about.description2": "Featuring a state-of-the-art sound system, immersive lighting design, and carefully curated international DJ talent, Zenzo is set to become the heartbeat of Brugge's nightlife scene.",
+    "about.established": "Established",
+    "about.vipAreas": "VIP Areas",
+    "about.capacity": "Capacity",
+    "about.security": "Security",
+    "about.premiumTitle": "Premium Experience",
+    "about.premiumSubtitle": "Where luxury meets entertainment",
+    
+    // Contact Section
+    "contact.title": "Contact",
+    "contact.us": "Us",
+    "contact.subtitle": "Get in touch for VIP reservations, private events, or any inquiries about our club.",
+    "contact.form.name": "Full Name",
+    "contact.form.namePlaceholder": "Your name",
+    "contact.form.email": "Email Address",
+    "contact.form.emailPlaceholder": "your@email.com",
+    "contact.form.subject": "Subject",
+    "contact.form.subjectPlaceholder": "Select a subject",
+    "contact.form.subjectVIP": "VIP Reservations",
+    "contact.form.subjectEvents": "Private Events",
+    "contact.form.subjectGeneral": "General Inquiry",
+    "contact.form.subjectOther": "Other",
+    "contact.form.message": "Your Message",
+    "contact.form.messagePlaceholder": "Tell us about your inquiry...",
+    "contact.form.submit": "Send Message",
+    "contact.infoTitle": "Club Information",
+    "contact.infoLocation": "Location",
+    "contact.infoPhone": "Phone",
+    "contact.infoEmail": "Email",
+    "contact.infoHours": "Opening Hours",
+    "contact.infoFollow": "Follow Us",
+    
+    // Footer
+    "footer.description": "Brugge's newest premier nightlife destination where music and unforgettable experiences come together.",
+    "footer.linksTitle": "Quick Links",
+    "footer.contactTitle": "Contact Info",
+    "footer.rights": "All Rights Reserved",
+    
+    // Language Selector
+    "language": "Language"
+  },
+  nl: {
+    // Navigation
+    "nav.home": "Home",
+    "nav.gallery": "Galerij",
+    "nav.vip": "VIP",
+    "nav.about": "Over Ons",
+    "nav.contact": "Contact",
+    
+    // Hero Section
+    "hero.subtitle": "Brugge's nieuwste nachtlevenbestemming waar muziek, luxe en onvergetelijke ervaringen samenkomen.",
+    "hero.vipButton": "VIP Ervaring",
+    "hero.contactButton": "Contacteer Ons",
+    
+    // Gallery Section
+    "gallery.title": "Galerij",
+    "gallery.subtitle": "Ervaar de levendige sfeer van Zenzo door onze visuele reis van onvergetelijke nachten.",
+    
+    // VIP Section
+    "vip.title": "VIP",
+    "vip.experience": "Ervaring",
+    "vip.subtitle": "Verhoog uw nacht met onze exclusieve VIP-diensten ontworpen voor wie het beste eist.",
+    "vip.bottleService.title": "Premium Flessen Service",
+    "vip.bottleService.description": "Geniet van onze selectie premium likeuren en champagne geserveerd aan uw privétafel.",
+    "vip.bottleService.benefit1": "Exclusieve likeurselectie inclusief Dom Pérignon",
+    "vip.bottleService.benefit2": "Gepersonaliseerde mixologie service",
+    "vip.bottleService.benefit3": "Toegewijde VIP-host",
+    "vip.lounge.title": "Privé Lounge",
+    "vip.lounge.description": "Exclusieve loungegebieden met privacy en de beste uitzichten.",
+    "vip.lounge.benefit1": "Gereserveerde luxe zitplaatsen",
+    "vip.lounge.benefit2": "Privé VIP-ingang",
+    "vip.lounge.benefit3": "Premium geluidssysteem",
+    "vip.party.title": "Privé Feest",
+    "vip.party.description": "Organiseer onvergetelijke evenementen met onze privéfeestpakketten.",
+    "vip.party.benefit1": "Toegewijde evenementencoördinator",
+    "vip.party.benefit2": "Aanpasbare muziek en verlichting",
+    "vip.party.benefit3": "Exclusieve toegang tot VIP-gebied",
+    "vip.cta": "Vraag naar VIP",
+    
+    // About Section
+    "about.title": "Over",
+    "about.description1": "Zenzo is Brugge's nieuwste en meest opwindende nachtlevenbestemming, die zijn deuren opent om onvergetelijke nachten te creëren. Onze visie is om cutting-edge muziek, verfijnd design en uitzonderlijke service te combineren.",
+    "about.description2": "Met een state-of-the-art geluidssysteem, meeslepende lichtontwerpen en zorgvuldig gecureerd internationaal DJ-talent, staat Zenzo klaar om het kloppende hart van Brugge's nachtleven te worden.",
+    "about.established": "Opgericht",
+    "about.vipAreas": "VIP Gebieden",
+    "about.capacity": "Capaciteit",
+    "about.security": "Beveiliging",
+    "about.premiumTitle": "Premium Ervaring",
+    "about.premiumSubtitle": "Waar luxe en entertainment samenkomen",
+    
+    // Contact Section
+    "contact.title": "Contact",
+    "contact.us": "Ons",
+    "contact.subtitle": "Neem contact op voor VIP-reserveringen, privé-evenementen of andere vragen over onze club.",
+    "contact.form.name": "Volledige Naam",
+    "contact.form.namePlaceholder": "Uw naam",
+    "contact.form.email": "E-mailadres",
+    "contact.form.emailPlaceholder": "uw@email.com",
+    "contact.form.subject": "Onderwerp",
+    "contact.form.subjectPlaceholder": "Selecteer een onderwerp",
+    "contact.form.subjectVIP": "VIP Reservaties",
+    "contact.form.subjectEvents": "Privé Evenementen",
+    "contact.form.subjectGeneral": "Algemene Vraag",
+    "contact.form.subjectOther": "Anders",
+    "contact.form.message": "Uw Bericht",
+    "contact.form.messagePlaceholder": "Vertel ons over uw vraag...",
+    "contact.form.submit": "Verstuur Bericht",
+    "contact.infoTitle": "Club Informatie",
+    "contact.infoLocation": "Locatie",
+    "contact.infoPhone": "Telefoon",
+    "contact.infoEmail": "E-mail",
+    "contact.infoHours": "Openingsuren",
+    "contact.infoFollow": "Volg Ons",
+    
+    // Footer
+    "footer.description": "Brugge's nieuwste premium nachtlevenbestemming waar muziek en onvergetelijke ervaringen samenkomen.",
+    "footer.linksTitle": "Snelle Links",
+    "footer.contactTitle": "Contact Info",
+    "footer.rights": "Alle Rechten Voorbehouden",
+    
+    // Language Selector
+    "language": "Taal"
+  },
+  fr: {
+    // Navigation
+    "nav.home": "Accueil",
+    "nav.gallery": "Galerie",
+    "nav.vip": "VIP",
+    "nav.about": "À Propos",
+    "nav.contact": "Contact",
+    
+    // Hero Section
+    "hero.subtitle": "La nouvelle destination nightlife de Bruges où la musique, le luxe et des expériences inoubliables se rencontrent.",
+    "hero.vipButton": "Expérience VIP",
+    "hero.contactButton": "Contactez-Nous",
+    
+    // Gallery Section
+    "gallery.title": "Galerie",
+    "gallery.subtitle": "Découvrez l'atmosphère vibrante de Zenzo à travers notre voyage visuel de nuits inoubliables.",
+    
+    // VIP Section
+    "vip.title": "VIP",
+    "vip.experience": "Expérience",
+    "vip.subtitle": "Élevez votre soirée avec nos services VIP exclusifs conçus pour ceux qui exigent le meilleur.",
+    "vip.bottleService.title": "Service Premium en Bouteille",
+    "vip.bottleService.description": "Profitez de notre sélection de spiritueux premium et de champagne servis à votre table privée.",
+    "vip.bottleService.benefit1": "Sélection exclusive d'alcools incluant Dom Pérignon",
+    "vip.bottleService.benefit2": "Service de mixologie personnalisé",
+    "vip.bottleService.benefit3": "Hôte VIP dédié",
+    "vip.lounge.title": "Lounge Privé",
+    "vip.lounge.description": "Espaces lounge exclusifs avec intimité et les meilleures vues.",
+    "vip.lounge.benefit1": "Sièges de luxe réservés",
+    "vip.lounge.benefit2": "Entrée VIP privée",
+    "vip.lounge.benefit3": "Système audio premium",
+    "vip.party.title": "Soirée Privée",
+    "vip.party.description": "Organisez des événements inoubliables avec nos forfaits de soirée privée.",
+    "vip.party.benefit1": "Coordinateur d'événements dédié",
+    "vip.party.benefit2": "Musique et éclairage personnalisables",
+    "vip.party.benefit3": "Accès exclusif à l'espace VIP",
+    "vip.cta": "Renseignements VIP",
+    
+    // About Section
+    "about.title": "À Propos",
+    "about.description1": "Zenzo est la destination nightlife la plus récente et excitante de Bruges, ouvrant ses portes pour créer des nuits inoubliables. Notre vision est de mélanger musique de pointe, design sophistiqué et service exceptionnel.",
+    "about.description2": "Avec un système son de pointe, un design d'éclairage immersif et des talents de DJ internationaux soigneusement sélectionnés, Zenzo est prêt à devenir le cœur battant de la scène nightlife de Bruges.",
+    "about.established": "Établi",
+    "about.vipAreas": "Zones VIP",
+    "about.capacity": "Capacité",
+    "about.security": "Sécurité",
+    "about.premiumTitle": "Expérience Premium",
+    "about.premiumSubtitle": "Où le luxe rencontre le divertissement",
+    
+    // Contact Section
+    "contact.title": "Contact",
+    "contact.us": "Nous",
+    "contact.subtitle": "Contactez-nous pour des réservations VIP, événements privés ou toute demande concernant notre club.",
+    "contact.form.name": "Nom Complet",
+    "contact.form.namePlaceholder": "Votre nom",
+    "contact.form.email": "Adresse Email",
+    "contact.form.emailPlaceholder": "votre@email.com",
+    "contact.form.subject": "Sujet",
+    "contact.form.subjectPlaceholder": "Sélectionnez un sujet",
+    "contact.form.subjectVIP": "Réservations VIP",
+    "contact.form.subjectEvents": "Événements Privés",
+    "contact.form.subjectGeneral": "Demande Générale",
+    "contact.form.subjectOther": "Autre",
+    "contact.form.message": "Votre Message",
+    "contact.form.messagePlaceholder": "Parlez-nous de votre demande...",
+    "contact.form.submit": "Envoyer le Message",
+    "contact.infoTitle": "Informations du Club",
+    "contact.infoLocation": "Emplacement",
+    "contact.infoPhone": "Téléphone",
+    "contact.infoEmail": "Email",
+    "contact.infoHours": "Heures d'Ouverture",
+    "contact.infoFollow": "Suivez-Nous",
+    
+    // Footer
+    "footer.description": "La nouvelle destination nightlife premium de Bruges où la musique et des expériences inoubliables se rencontrent.",
+    "footer.linksTitle": "Liens Rapides",
+    "footer.contactTitle": "Informations de Contact",
+    "footer.rights": "Tous Droits Réservés",
+    
+    // Language Selector
+    "language": "Langue"
+  }
+};
+
+// Language Management
+let currentLanguage = 'en';
+
+function setLanguage(lang) {
+  if (translations[lang]) {
+    currentLanguage = lang;
+    
+    // Update all elements with data-translate attribute
+    document.querySelectorAll('[data-translate]').forEach(element => {
+      const key = element.getAttribute('data-translate');
+      if (translations[lang][key]) {
+        element.textContent = translations[lang][key];
+      }
+    });
+    
+    // Update all placeholder elements with data-translate-placeholder attribute
+    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+      const key = element.getAttribute('data-translate-placeholder');
+      if (translations[lang][key]) {
+        element.setAttribute('placeholder', translations[lang][key]);
+      }
+    });
+    
+    // Update all option elements with data-translate attribute inside select elements
+    document.querySelectorAll('select option[data-translate]').forEach(element => {
+      const key = element.getAttribute('data-translate');
+      if (translations[lang][key]) {
+        element.textContent = translations[lang][key];
+      }
+    });
+    
+    // Update current language indicator
+    document.getElementById('current-lang').textContent = lang.toUpperCase();
+    
+    // Save language preference to localStorage
+    localStorage.setItem('zenzo-language', lang);
+    
+    // Update HTML lang attribute
+    document.documentElement.lang = lang;
+  }
+}
+
+// Initialize language from localStorage or browser preference
+function initLanguage() {
+  const savedLanguage = localStorage.getItem('zenzo-language');
+  const browserLanguage = navigator.language.substring(0, 2);
+
+  // Set default to 'nl' (Nederlands)
+  if (savedLanguage && translations[savedLanguage]) {
+    setLanguage(savedLanguage);
+  } else if (translations[browserLanguage]) {
+    setLanguage(browserLanguage);
+  } else {
+    setLanguage('nl'); // Default is now Nederlands
+  }
+}
+
+// Set up language selector event listeners
+function setupLanguageSelectors() {
+  // Desktop dropdown - prevent dropdown from closing too quickly
+  document.querySelectorAll('.language-dropdown a').forEach(link => {
+    link.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+    });
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const lang = this.getAttribute('data-lang');
+      setLanguage(lang);
+      dropdown.style.display = 'none';
+    });
+  });
+
+  // Mobile buttons
+  document.querySelectorAll('.language-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const lang = this.getAttribute('data-lang');
+      setLanguage(lang);
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Improved dropdown hover logic
+  const languageSelector = document.querySelector('.language-selector');
+  const dropdown = document.querySelector('.language-dropdown');
+  let dropdownTimeout;
+
+  if (languageSelector && dropdown) {
+    languageSelector.addEventListener('mouseenter', function() {
+      clearTimeout(dropdownTimeout);
+      dropdown.style.display = 'block';
+    });
+    languageSelector.addEventListener('mouseleave', function() {
+      dropdownTimeout = setTimeout(() => {
+        dropdown.style.display = 'none';
+      }, 200);
+    });
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(dropdownTimeout);
+      dropdown.style.display = 'block';
+    });
+    dropdown.addEventListener('mouseleave', function() {
+      dropdownTimeout = setTimeout(() => {
+        dropdown.style.display = 'none';
+      }, 200);
+    });
+  }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  initLanguage();
+  setupLanguageSelectors();
+});
+
     // Custom Cursor System
     let cursor = document.querySelector('.cursor');
     let cursorFollower = document.querySelector('.cursor-follower');
@@ -874,27 +1351,36 @@
 
     // Mobile Menu Toggle
     const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const closeMobileMenu = document.getElementById('close-mobile-menu');
-    
-    mobileMenuButton.addEventListener('click', function() {
-      mobileMenu.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-    
-    closeMobileMenu.addEventListener('click', function() {
-      mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    });
+const newMobileMenu = document.getElementById('new-mobile-menu');
+const newCloseMobileMenu = document.getElementById('new-close-mobile-menu');
 
-    // Close mobile menu when clicking on links
-    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-    mobileMenuLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
+mobileMenuButton.addEventListener('click', function() {
+  newMobileMenu.style.transform = 'translateX(0)';
+  document.body.style.overflow = 'hidden';
+});
+
+newCloseMobileMenu.addEventListener('click', function() {
+  newMobileMenu.style.transform = 'translateX(100%)';
+  document.body.style.overflow = '';
+});
+
+// Close menu when clicking a link
+newMobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', function() {
+    newMobileMenu.style.transform = 'translateX(100%)';
+    document.body.style.overflow = '';
+  });
+});
+
+// Language buttons
+newMobileMenu.querySelectorAll('.language-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const lang = this.getAttribute('data-lang');
+    setLanguage(lang);
+    newMobileMenu.style.transform = 'translateX(100%)';
+    document.body.style.overflow = '';
+  });
+});
 
     // Navbar scroll effects and progress bar
     const nav = document.getElementById("navbar");
@@ -1055,7 +1541,7 @@
         }
       }
     `;
-    document.head.appendChild(style);
+       document.head.appendChild(style);
 
     // Enhanced Form Handling
     const contactForm = document.getElementById('contact-form');
