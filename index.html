@@ -384,6 +384,25 @@
 .current-language:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+
+#new-mobile-menu {
+  z-index: 99999 !important;
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  max-width: 400px;
+  height: 100vh;
+  background: rgba(10,10,10,0.97);
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateX(100%);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.5);
+}
+
+#new-mobile-menu.active,
+#new-mobile-menu[style*="translateX(0)"] {
+  transform: translateX(0);
+}
   </style>
 </head>
 <body class="gradient-bg text-gray-100 font-sans antialiased">
@@ -448,43 +467,28 @@
     </svg>
   </button>
   
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="mobile-menu fixed inset-y-0 right-0 w-64 h-full bg-dark-800 shadow-lg z-[999] p-6 overflow-y-auto flex flex-col">
-      <div class="flex justify-between items-center mb-8">
-        <img src="images/logo.png" alt="Zenzo Logo" class="h-12 w-auto">
-        <button id="close-mobile-menu" class="text-gray-400 hover:text-white">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-col space-y-6 flex-1 justify-center">
-        <a href="#home" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.home">Home</a>
-        <a href="#gallery" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.gallery">Gallery</a>
-        <a href="#vip" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.vip">VIP</a>
-        <a href="#about" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.about">About</a>
-        <a href="#contact" class="text-xl font-medium hover:text-primary-400 transition-colors duration-300" data-translate="nav.contact">Contact</a>
-      </div>
-      <div class="mt-12 pt-6 border-t border-gray-700">
-        <div class="flex space-x-6">
-          <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">
-            <i class="fab fa-facebook-f text-xl"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">
-            <i class="fab fa-instagram text-xl"></i>
-          </a>
-        </div>
-        <!-- Mobile Language Selector -->
-        <div class="mt-6">
-          <h4 class="text-white mb-3" data-translate="language">Language</h4>
-          <div class="flex space-x-4">
-            <button class="text-gray-400 hover:text-primary-400 transition-colors duration-300 language-btn" data-lang="en">EN</button>
-            <button class="text-gray-400 hover:text-primary-400 transition-colors duration-300 language-btn" data-lang="nl">NL</button>
-            <button class="text-gray-400 hover:text-primary-400 transition-colors duration-300 language-btn" data-lang="fr">FR</button>
-          </div>
-        </div>
-      </div>
+  <!-- New Mobile Menu -->
+  <div id="new-mobile-menu" class="fixed top-0 right-0 flex flex-col p-8 transition-transform duration-500 transform translate-x-full">
+  <div class="flex justify-between items-center mb-10">
+    <img src="images/logo.png" alt="Zenzo Logo" class="h-12 w-auto">
+    <button id="new-close-mobile-menu" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+  </div>
+  <nav class="flex flex-col space-y-8 text-xl font-semibold">
+    <a href="#home" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.home">Home</a>
+    <a href="#gallery" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.gallery">Gallery</a>
+    <a href="#vip" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.vip">VIP</a>
+    <a href="#about" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.about">About</a>
+    <a href="#contact" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.contact">Contact</a>
+  </nav>
+  <div class="mt-12 pt-8 border-t border-gray-700">
+    <h4 class="text-white mb-4" data-translate="language">Language</h4>
+    <div class="flex space-x-6">
+      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="en">EN</button>
+      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="nl">NL</button>
+      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="fr">FR</button>
     </div>
+  </div>
+</div>
 </nav>
 
   <!-- Hero Section -->
@@ -906,7 +910,7 @@
       </div>
       
       <div class="pt-8 border-t border-gray-800 text-center">
-        <p class="text-lg">&copy; 2025 Zenzo Nightclub. <span data-translate="footer.rights">All Rights Reserved</span>.</p>
+        <p class="text-lg">&copy; 2025 Zenzo . <span data-translate="footer.rights">All Rights Reserved</span>.</p>
       </div>
     </div>
   </footer>
@@ -917,7 +921,7 @@
   </a>
 
   <!-- Add this just before </body> -->
-<div id="new-mobile-menu" class="fixed inset-0 bg-black bg-opacity-95 z-[99999] flex flex-col p-8 transition-transform duration-500 transform translate-x-full">
+<div id="new-mobile-menu" class="fixed top-0 right-0 flex flex-col p-8 transition-transform duration-500 transform translate-x-full">
   <div class="flex justify-between items-center mb-10">
     <img src="images/logo.png" alt="Zenzo Logo" class="h-12 w-auto">
     <button id="new-close-mobile-menu" class="text-gray-400 hover:text-white text-3xl">&times;</button>
