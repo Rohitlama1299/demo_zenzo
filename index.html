@@ -767,33 +767,35 @@
     
     <div class="flex flex-col lg:flex-row gap-10 max-w-6xl mx-auto"> <!-- reduced gap and max-width -->
       <div class="lg:w-1/2">
-        <form class="glass-card rounded-xl p-6" id="contact-form"> <!-- reduced padding and rounding -->
-          <div class="mb-6">
-            <label for="name" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.name">Full Name</label>
-            <input type="text" id="name" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" data-translate-placeholder="contact.form.namePlaceholder" placeholder="Your name">
-          </div>
-          <div class="mb-6">
-            <label for="email" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.email">Email Address</label>
-            <input type="email" id="email" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" data-translate-placeholder="contact.form.emailPlaceholder" placeholder="your@email.com">
-          </div>
-          <div class="mb-6">
-            <label for="subject" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.subject">Subject</label>
-            <select id="subject" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm">
-              <option value="" data-translate="contact.form.subjectPlaceholder">Select a subject</option>
-              <option value="vip" data-translate="contact.form.subjectVIP">VIP Reservations</option>
-              <option value="events" data-translate="contact.form.subjectEvents">Private Events</option>
-              <option value="general" data-translate="contact.form.subjectGeneral">General Inquiry</option>
-              <option value="other" data-translate="contact.form.subjectOther">Other</option>
-            </select>
-          </div>
-          <div class="mb-8">
-            <label for="message" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.message">Your Message</label>
-            <textarea id="message" rows="4" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm resize-none" data-translate-placeholder="contact.form.messagePlaceholder" placeholder="Tell us about your inquiry..."></textarea>
-          </div>
-          <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-xl hover:shadow-primary-500/50 magnetic-btn ripple text-base" data-translate="contact.form.submit">
-            Send Message
-          </button>
-        </form>
+        <!-- Update your contact form to send submissions to your email using Formspree -->
+
+<form action="https://formspree.io/f/mblajjwr" method="POST" class="glass-card rounded-xl p-6" id="contact-form">
+  <div class="mb-6">
+    <label for="name" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.name">Full Name</label>
+    <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" data-translate-placeholder="contact.form.namePlaceholder" placeholder="Your name">
+  </div>
+  <div class="mb-6">
+    <label for="email" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.email">Email Address</label>
+    <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm" data-translate-placeholder="contact.form.emailPlaceholder" placeholder="your@email.com">
+  </div>
+  <div class="mb-6">
+    <label for="subject" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.subject">Subject</label>
+    <select id="subject" name="subject" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm">
+      <option value="" data-translate="contact.form.subjectPlaceholder">Select a subject</option>
+      <option value="vip" data-translate="contact.form.subjectVIP">VIP Reservations</option>
+      <option value="events" data-translate="contact.form.subjectEvents">Private Events</option>
+      <option value="general" data-translate="contact.form.subjectGeneral">General Inquiry</option>
+      <option value="other" data-translate="contact.form.subjectOther">Other</option>
+    </select>
+  </div>
+  <div class="mb-8">
+    <label for="message" class="block text-gray-300 mb-2 font-medium text-base" data-translate="contact.form.message">Your Message</label>
+    <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 bg-dark-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-300 text-base backdrop-blur-sm resize-none" data-translate-placeholder="contact.form.messagePlaceholder" placeholder="Tell us about your inquiry..."></textarea>
+  </div>
+  <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-xl hover:shadow-primary-500/50 magnetic-btn ripple text-base" data-translate="contact.form.submit">
+    Send Message
+  </button>
+</form>
       </div>
       
       <div class="lg:w-1/2">
@@ -1527,31 +1529,6 @@ newMobileMenu.querySelectorAll('.language-btn').forEach(button => {
        document.head.appendChild(style);
 
     // Enhanced Form Handling
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-      contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
-        submitBtn.disabled = true;
-        
-        // Simulate form submission
-        setTimeout(() => {
-          submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Message Sent!';
-          submitBtn.style.background = 'linear-gradient(to right, #10b981, #059669)';
-          
-          setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            submitBtn.style.background = '';
-            this.reset();
-          }, 3000);
-        }, 2000);
-      });
-    }
 
     // Counter Animation for About Section
     function animateCounters() {
@@ -1638,6 +1615,53 @@ newMobileMenu.querySelectorAll('.language-btn').forEach(button => {
     });
 
     console.log('🎉 Zenzo Nightclub Enhanced Experience Loaded! 🎊');
+
+   
+// Replace your contact form submit handler with this version
+
+document.addEventListener('DOMContentLoaded', function() {
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    // Save the original form HTML
+    const originalFormHTML = contactForm.innerHTML;
+
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(contactForm);
+
+      fetch('https://formspree.io/f/mblajjwr', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          contactForm.reset();
+          contactForm.innerHTML = `
+            <div class="text-center py-8">
+              <h3 class="text-2xl font-bold text-primary-400 mb-4">Thank you!</h3>
+              <p class="text-gray-300">Your message has been sent. We will get back to you soon.</p>
+            </div>
+          `;
+          // Restore the form after 5 seconds
+          setTimeout(() => {
+            contactForm.innerHTML = originalFormHTML;
+          }, 4000);
+        } else {
+          response.json().then(data => {
+            alert(data.error || "Sorry, there was a problem sending your message.");
+          });
+        }
+      })
+      .catch(() => {
+        alert("Sorry, there was a problem sending your message.");
+      });
+    });
+  }
+});
   </script>
 </body>
 </html>
