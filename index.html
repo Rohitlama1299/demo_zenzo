@@ -1217,18 +1217,12 @@ function setLanguage(lang) {
   }
 }
 
-// Initialize language from localStorage or browser preference
 function initLanguage() {
   const savedLanguage = localStorage.getItem('zenzo-language');
-  const browserLanguage = navigator.language.substring(0, 2);
-
-  // Set default to 'nl' (Nederlands)
   if (savedLanguage && translations[savedLanguage]) {
     setLanguage(savedLanguage);
-  } else if (translations[browserLanguage]) {
-    setLanguage(browserLanguage);
   } else {
-    setLanguage('nl'); // Default is now Nederlands
+    setLanguage('nl'); // Default to Nederlands if no saved language
   }
 }
 
