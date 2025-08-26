@@ -384,6 +384,25 @@
 .current-language:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+/* Ensure flag and language code are side by side, not stacked */
+.current-language,
+.language-dropdown a {
+  display: flex;
+  align-items: center;
+}
+
+.current-language img,
+.language-dropdown img {
+  margin-right: 6px;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.current-language span,
+.language-dropdown span {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 #new-mobile-menu {
   z-index: 99999 !important;
@@ -447,17 +466,30 @@
     </a>
     
     <!-- Language Selector -->
-    <div class="language-selector ml-4">
-      <div class="current-language flex items-center">
-        <span id="current-lang" class="mr-1">EN</span>
-        <i class="fas fa-chevron-down text-xs"></i>
-      </div>
-      <div class="language-dropdown">
-        <a href="#" data-lang="en">English (EN)</a>
-        <a href="#" data-lang="nl">Nederlands (NL)</a>
-        <a href="#" data-lang="fr">Français (FR)</a>
-      </div>
-    </div>
+    <!-- Replace the language selector markup in your navigation with flag icons and language code -->
+
+<!-- Desktop Language Selector -->
+<div class="language-selector ml-4">
+  <div class="current-language flex items-center">
+    <img id="current-lang-flag" src="https://flagcdn.com/nl.svg" alt="NL" class="w-5 h-5 mr-1 rounded shadow" />
+    <span id="current-lang" class="mr-1">NL</span>
+    <i class="fas fa-chevron-down text-xs"></i>
+  </div>
+  <div class="language-dropdown">
+    <a href="#" data-lang="en" class="flex items-center">
+      <img src="https://flagcdn.com/gb.svg" alt="EN" class="w-5 h-5 mr-2 rounded shadow" />
+      <span>EN</span>
+    </a>
+    <a href="#" data-lang="nl" class="flex items-center">
+      <img src="https://flagcdn.com/nl.svg" alt="NL" class="w-5 h-5 mr-2 rounded shadow" />
+      <span>NL</span>
+    </a>
+    <a href="#" data-lang="fr" class="flex items-center">
+      <img src="https://flagcdn.com/fr.svg" alt="FR" class="w-5 h-5 mr-2 rounded shadow" />
+      <span>FR</span>
+    </a>
+  </div>
+</div>
   </div>
   
   <!-- Mobile Menu Button -->
@@ -482,11 +514,21 @@
   </nav>
   <div class="mt-12 pt-8 border-t border-gray-700">
     <h4 class="text-white mb-4" data-translate="language">Language</h4>
-    <div class="flex space-x-6">
-      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="en">EN</button>
-      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="nl">NL</button>
-      <button class="text-gray-400 hover:text-primary-400 language-btn" data-lang="fr">FR</button>
-    </div>
+    <!-- In your #new-mobile-menu, replace the language buttons block with: -->
+<div class="flex flex-col space-y-4">
+  <button class="flex items-center text-gray-400 hover:text-primary-400 language-btn" data-lang="en">
+    <img src="https://flagcdn.com/gb.svg" alt="EN" class="w-5 h-5 mr-2 rounded shadow" />
+    <span>EN</span>
+  </button>
+  <button class="flex items-center text-gray-400 hover:text-primary-400 language-btn" data-lang="nl">
+    <img src="https://flagcdn.com/nl.svg" alt="NL" class="w-5 h-5 mr-2 rounded shadow" />
+    <span>NL</span>
+  </button>
+  <button class="flex items-center text-gray-400 hover:text-primary-400 language-btn" data-lang="fr">
+    <img src="https://flagcdn.com/fr.svg" alt="FR" class="w-5 h-5 mr-2 rounded shadow" />
+    <span>FR</span>
+  </button>
+</div>
   </div>
 </div>
 </nav>
@@ -1181,6 +1223,22 @@ let currentLanguage = 'en';
 function setLanguage(lang) {
   if (translations[lang]) {
     currentLanguage = lang;
+
+    // Update current language indicator
+    document.getElementById('current-lang').textContent = lang.toUpperCase();
+
+    // Update flag icon
+    const flagMap = {
+      en: 'gb',
+      nl: 'nl',
+      fr: 'fr'
+    };
+    const flagCode = flagMap[lang] || 'gb';
+    const flagImg = document.getElementById('current-lang-flag');
+    if (flagImg) {
+      flagImg.src = `https://flagcdn.com/${flagCode}.svg`;
+      flagImg.alt = lang.toUpperCase();
+    }
     
     // Update all elements with data-translate attribute
     document.querySelectorAll('[data-translate]').forEach(element => {
