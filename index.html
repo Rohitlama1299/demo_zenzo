@@ -48,6 +48,27 @@
   </script>
   
   <style>
+
+    /* Add to your existing style section */
+.lost-found-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.lost-found-link:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+
+.lost-found-link i {
+    margin-right: 0.5rem;
+    color: var(--gold);
+}
     /* Custom Cursor */
     .cursor {
       position: fixed;
@@ -471,6 +492,12 @@
       Contact
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
+
+    <!-- Add inside the desktop navigation div with class="hidden md:flex space-x-8" -->
+<a href="#contact?type=lost-found" class="lost-found-link" data-translate="nav.lostFound">
+    <i class="fas fa-search-location"></i>
+    <span>Lost & Found</span>
+</a>
     
     <!-- Language Selector -->
     <!-- Replace the language selector markup in your navigation with flag icons and language code -->
@@ -518,6 +545,11 @@
     <a href="#vip" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.vip">VIP</a>
     <a href="#about" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.about">About</a>
     <a href="#contact" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.contact">Contact</a>
+    <!-- Add inside the mobile menu nav with class="flex flex-col space-y-8" -->
+<a href="#contact?type=lost-found" class="hover:text-primary-400 transition-colors duration-300" data-translate="nav.lostFound">
+    <i class="fas fa-search-location mr-2"></i>
+    Lost & Found
+</a>
   </nav>
   <div class="mt-12 pt-8 border-t border-gray-700">
     <h4 class="text-white mb-4" data-translate="language">Language</h4>
@@ -1259,6 +1291,16 @@ translations.nl["contact.form.phonePlaceholder"] = "Uw telefoonnummer";
 translations.fr["contact.form.phone"] = "Numéro de téléphone";
 translations.fr["contact.form.phonePlaceholder"] = "Votre numéro de téléphone";
 
+// Add to your existing translations object
+translations.en["nav.lostFound"] = "Lost & Found";
+translations.en["contact.form.subjectLostFound"] = "Lost & Found";
+
+translations.nl["nav.lostFound"] = "Verloren Voorwerpen";
+translations.nl["contact.form.subjectLostFound"] = "Verloren Voorwerpen";
+
+translations.fr["nav.lostFound"] = "Objets Trouvés";
+translations.fr["contact.form.subjectLostFound"] = "Objets Trouvés";
+
 
 translations.en["contact.infoHoursDetails"] = "Wednesday - Sunday : 6 PM - 5 AM";
 translations.nl["contact.infoHoursDetails"] = "Woensdag - Zondag : 18u - 5u";
@@ -1765,6 +1807,28 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+});
+
+// Add to your existing JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle Lost & Found link clicks
+    document.querySelectorAll('a[href="#contact?type=lost-found"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Scroll to contact section
+            const contactSection = document.querySelector('#contact');
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Set the subject to Lost & Found
+            setTimeout(() => {
+                const subjectSelect = document.querySelector('#subject');
+                if (subjectSelect) {
+                    subjectSelect.value = 'lost-found';
+                }
+            }, 1000);
+        });
+    });
 });
   </script>
 </body>
