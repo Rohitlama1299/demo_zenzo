@@ -1,6 +1,16 @@
 document.getElementById("contact-form").addEventListener("submit", function(e) {
   let valid = true;
 
+  // Name Validation
+  const name = document.getElementById("name");
+  const nameError = document.getElementById("nameError");
+  if (name.value.trim() === '') {
+    nameError.classList.remove("hidden");
+    valid = false;
+  } else {
+    nameError.classList.add("hidden");
+  }
+
   // Email Validation
   const email = document.getElementById("email");
   const emailError = document.getElementById("emailError");
@@ -12,15 +22,24 @@ document.getElementById("contact-form").addEventListener("submit", function(e) {
     emailError.classList.add("hidden");
   }
 
-  // Phone Validation
-  const phone = document.getElementById("phone");
-  const phoneError = document.getElementById("phoneError");
-  const phonePattern = /^\+?[0-9]{7,15}$/;
-  if (!phonePattern.test(phone.value)) {
-    phoneError.classList.remove("hidden");
+  // Subject Validation
+  const subject = document.getElementById("subject");
+  const subjectError = document.getElementById("subjectError");
+  if (subject.value === '') {
+    subjectError.classList.remove("hidden");
     valid = false;
   } else {
-    phoneError.classList.add("hidden");
+    subjectError.classList.add("hidden");
+  }
+
+  // Message Validation
+  const message = document.getElementById("message");
+  const messageError = document.getElementById("messageError");
+  if (message.value.trim() === '') {
+    messageError.classList.remove("hidden");
+    valid = false;
+  } else {
+    messageError.classList.add("hidden");
   }
 
   if (!valid) {
@@ -110,7 +129,12 @@ const translations = {
     "footer.rights": "All Rights Reserved",
     
     // Language Selector
-    "language": "Language"
+    "language": "Language",
+    "nameError": "Name is required.",
+    "emailError": "Please enter a valid email address.",
+    "phoneError": "Please enter a valid phone number.",
+    "subjectError": "Please select a subject.",
+    "messageError": "Message is required."
   },
   nl: {
     // Navigation
@@ -192,7 +216,12 @@ const translations = {
     "footer.rights": "Alle Rechten Voorbehouden",
     
     // Language Selector
-    "language": "Taal"
+    "language": "Taal",
+    "nameError": "Naam is verplicht.",
+    "emailError": "Voer een geldig e-mailadres in.",
+    "phoneError": "Voer een geldig telefoonnummer in.",
+    "subjectError": "Selecteer een onderwerp.",
+    "messageError": "Bericht is verplicht."
   },
   fr: {
     // Navigation
@@ -273,7 +302,12 @@ const translations = {
     "footer.contactTitle": "Informations de Contact",
     "footer.rights": "Tous Droits Réservés",
     // Language Selector
-    "language": "Langue"
+    "language": "Langue",
+    "nameError": "Le nom est requis.",
+    "emailError": "Veuillez saisir une adresse e-mail valide.",
+    "phoneError": "Veuillez saisir un numéro de téléphone valide.",
+    "subjectError": "Veuillez sélectionner un sujet.",
+    "messageError": "Le message est requis."
   }
 };
 
@@ -817,6 +851,59 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  // Form validation
+  const nameInput = document.getElementById('name');
+  const nameError = document.getElementById('nameError');
+  nameInput.addEventListener('blur', function() {
+    if (this.value.trim() === '') {
+      nameError.classList.remove('hidden');
+    } else {
+      nameError.classList.add('hidden');
+    }
+  });
+
+  const emailInput = document.getElementById('email');
+  const emailError = document.getElementById('emailError');
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+  emailInput.addEventListener('blur', function() {
+    if (!emailPattern.test(this.value)) {
+      emailError.classList.remove('hidden');
+    } else {
+      emailError.classList.add('hidden');
+    }
+  });
+
+  const phoneInput = document.getElementById('phone');
+  const phoneError = document.getElementById('phoneError');
+  const phonePattern = /^\+?[0-9]{7,15}$/;
+  phoneInput.addEventListener('blur', function() {
+    if (this.value && !phonePattern.test(this.value)) {
+      phoneError.classList.remove('hidden');
+    } else {
+      phoneError.classList.add('hidden');
+    }
+  });
+
+  const subjectSelect = document.getElementById('subject');
+  const subjectError = document.getElementById('subjectError');
+  subjectSelect.addEventListener('change', function() {
+    if (this.value === '') {
+      subjectError.classList.remove('hidden');
+    } else {
+      subjectError.classList.add('hidden');
+    }
+  });
+
+  const messageTextarea = document.getElementById('message');
+  const messageError = document.getElementById('messageError');
+  messageTextarea.addEventListener('blur', function() {
+    if (this.value.trim() === '') {
+      messageError.classList.remove('hidden');
+    } else {
+      messageError.classList.add('hidden');
+    }
+  });
 
   // Check for URL parameters to pre-select form options
   const hash = window.location.hash;
