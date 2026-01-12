@@ -566,8 +566,10 @@ newMobileMenu.querySelectorAll('.language-btn').forEach(button => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
         
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
+        const href = this.getAttribute('href');
+        const hashIndex = href.indexOf('#');
+        const targetId = hashIndex !== -1 ? href.substring(hashIndex + 1).split('?')[0] : href.split('?')[0];
+        const targetElement = document.getElementById(targetId);
         
         if (targetElement) {
           const offsetTop = targetElement.offsetTop - 80;
@@ -577,6 +579,18 @@ newMobileMenu.querySelectorAll('.language-btn').forEach(button => {
             behavior: 'smooth'
           });
         }
+      });
+    });
+
+    // Handle Lost & Found link clicks
+    document.querySelectorAll('a[href="#contact?type=lost-found"]').forEach(link => {
+      link.addEventListener('click', function() {
+        setTimeout(() => {
+          const subjectSelect = document.getElementById('subject');
+          if (subjectSelect) {
+            subjectSelect.value = 'lost-found';
+          }
+        }, 100);
       });
     });
 
@@ -802,6 +816,21 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("Sorry, there was a problem sending your message.");
       });
     });
+  }
+
+  // Check for URL parameters to pre-select form options
+  const hash = window.location.hash;
+  const queryIndex = hash.indexOf('?');
+  if (queryIndex !== -1) {
+    const queryString = hash.substring(queryIndex + 1);
+    const urlParams = new URLSearchParams(queryString);
+    const type = urlParams.get('type');
+    if (type === 'lost-found') {
+      const subjectSelect = document.getElementById('subject');
+      if (subjectSelect) {
+        subjectSelect.value = 'lost-found';
+      }
+    }
   }
 });
 // Gallery functionality
