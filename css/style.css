@@ -103,19 +103,28 @@
     .scroll-container {
       mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
     }
-    
+
+    .scroll-container:active {
+      cursor: grabbing;
+    }
+
     .scroll-content {
-      animation: scroll 40s linear infinite;
+      display: flex;
+      will-change: transform;
     }
-    
-    .scroll-content:hover {
-      animation-play-state: paused;
+
+    .scroll-content img {
+      pointer-events: none;
+      -webkit-user-drag: none;
     }
-    
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+
+    .gallery-item {
+      flex-shrink: 0;
     }
     /* Add these styles to your existing CSS */
 #prevGallery,
@@ -128,11 +137,6 @@
 #prevGallery:hover,
 #nextGallery:hover {
   opacity: 1;
-}
-
-.scroll-content {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
 }
     
     /* Glass Morphism */

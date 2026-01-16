@@ -236,7 +236,7 @@
         </div>
 
         <!-- Gallery Images -->
-        <div class="scroll-container w-full overflow-hidden relative">
+        <div class="scroll-container w-full relative">
             <!-- Buttons overlayed on the images
             <button id="prev-button" aria-label="Previous" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white w-10 h-10 rounded-full flex items-center justify-center z-20">
               <i class="fas fa-chevron-left"></i>
@@ -245,18 +245,32 @@
               <i class="fas fa-chevron-right"></i>
             </button> -->
 
-            <div class="scroll-content flex w-max px-2" style="scroll-behavior: smooth;">
+            <div class="scroll-content flex gap-0 px-2">
+                <!-- Original images -->
                 <div class="gallery-item mx-3">
-                    <img src="images/example1.jpg" alt="Dance floor" class="h-80 w-auto object-cover rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105" onclick="enlargeImage(this)">
+                    <img src="images/example1.jpg" alt="Dance floor" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
                 </div>
                 <div class="gallery-item mx-3">
-                    <img src="images/example2.jpg" alt="Club interior" class="h-80 w-auto object-cover rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105" onclick="enlargeImage(this)">
+                    <img src="images/example2.jpg" alt="Club interior" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
                 </div>
                 <div class="gallery-item mx-3">
-                    <img src="images/example3.jpg" alt="DJ performance" class="h-80 w-auto object-cover rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105" onclick="enlargeImage(this)">
+                    <img src="images/example3.jpg" alt="DJ performance" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
                 </div>
                 <div class="gallery-item mx-3">
-                    <img src="images/example4.jpg" alt="Bar area" class="h-80 w-auto object-cover rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105" onclick="enlargeImage(this)">
+                    <img src="images/example4.jpg" alt="Bar area" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
+                </div>
+                <!-- Cloned images for infinite loop -->
+                <div class="gallery-item mx-3 clone">
+                    <img src="images/example1.jpg" alt="Dance floor" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
+                </div>
+                <div class="gallery-item mx-3 clone">
+                    <img src="images/example2.jpg" alt="Club interior" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
+                </div>
+                <div class="gallery-item mx-3 clone">
+                    <img src="images/example3.jpg" alt="DJ performance" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
+                </div>
+                <div class="gallery-item mx-3 clone">
+                    <img src="images/example4.jpg" alt="Bar area" class="h-80 w-auto object-cover rounded-xl shadow-2xl" draggable="false">
                 </div>
             </div>
         </div>

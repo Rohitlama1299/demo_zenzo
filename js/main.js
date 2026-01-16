@@ -920,135 +920,90 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
-// Gallery functionality
+// Gallery functionality with infinite loop and auto-scroll
 const Gallery = {
-  elements: {
-    scrollContent: null,
-    prevBtn: null,
-    nextBtn: null,
-    galleryItem: null,
-    galleryItems: null
-  },
-  
-  state: {
-    isDown: false,
-    startX: 0,
-    scrollLeft: 0,
-    itemWidth: 0,
-    touchStartX: 0
-  },
+  container: null,
+  scrollContent: null,
+  isDragging: false,
+  startX: 0,
+  currentX: 0,
+  autoScrollSpeed: 0.5,
+  halfWidth: 0,
 
   init() {
-    // Initialize elements
-    this.elements.scrollContent = document.querySelector('.scroll-content');
-    this.elements.prevBtn = document.getElementById('prev-button');
-    this.elements.nextBtn = document.getElementById('next-button');
-    this.elements.galleryItem = document.querySelector('.gallery-item');
-    this.elements.galleryItems = document.querySelectorAll('.gallery-item');
+    this.container = document.querySelector('.scroll-container');
+    this.scrollContent = document.querySelector('.scroll-content');
+    if (!this.container || !this.scrollContent) return;
 
-    // Check if all required elements exist
-    if (!this.elements.scrollContent || !this.elements.galleryItem || 
-        !this.elements.prevBtn || !this.elements.nextBtn) {
-      console.warn('Gallery elements not found');
-      return false;
-    }
-
-    // Calculate item width
-    const style = getComputedStyle(this.elements.galleryItem);
-    const marginLeft = parseFloat(style.marginLeft) || 0;
-    const marginRight = parseFloat(style.marginRight) || 0;
-    this.state.itemWidth = Math.round(this.elements.galleryItem.offsetWidth + marginLeft + marginRight);
-
-    this.setupEventListeners();
-    return true;
+    // Wait for images to load to get correct width
+    setTimeout(() => {
+      this.halfWidth = this.scrollContent.scrollWidth / 2;
+      this.setupEvents();
+      this.autoScroll();
+    }, 100);
   },
 
-  scrollByAmount(amount) {
-    const currentScroll = this.elements.scrollContent.scrollLeft;
-    const maxScroll = this.elements.scrollContent.scrollWidth - this.elements.scrollContent.clientWidth;
-    
-    let newScroll = currentScroll + amount;
-    
-    // Add loop-around functionality
-    if (newScroll > maxScroll) {
-      newScroll = 0;
-    } else if (newScroll < 0) {
-      newScroll = maxScroll;
+  autoScroll() {
+    if (!this.isDragging) {
+      this.currentX -= this.autoScrollSpeed;
+
+      // Loop when reaching halfway point
+      if (Math.abs(this.currentX) >= this.halfWidth) {
+        this.currentX = 0;
+      }
+
+      this.scrollContent.style.transform = `translateX(${this.currentX}px)`;
     }
-    
-    this.elements.scrollContent.scrollTo({
-      left: newScroll,
-      behavior: 'smooth'
-    });
+    requestAnimationFrame(() => this.autoScroll());
   },
 
-  setupEventListeners() {
-    // Navigation buttons
-    this.elements.nextBtn.addEventListener('click', (e) => {
+  setupEvents() {
+    // Mouse down on container
+    this.container.addEventListener('mousedown', (e) => {
       e.preventDefault();
-      e.stopPropagation();
-      this.scrollByAmount(this.state.itemWidth);
-      console.log('gallery next clicked');
+      this.isDragging = true;
+      this.startX = e.pageX - this.currentX;
     });
 
-    this.elements.prevBtn.addEventListener('click', (e) => {
+    // Mouse move anywhere on document
+    document.addEventListener('mousemove', (e) => {
+      if (!this.isDragging) return;
       e.preventDefault();
-      e.stopPropagation();
-      this.scrollByAmount(-this.state.itemWidth);
-      console.log('gallery prev clicked');
+      this.currentX = e.pageX - this.startX;
+
+      // Loop boundaries
+      if (this.currentX > 0) this.currentX = -this.halfWidth;
+      if (this.currentX < -this.halfWidth) this.currentX = 0;
+
+      this.scrollContent.style.transform = `translateX(${this.currentX}px)`;
     });
 
-    // Mouse drag functionality
-    this.elements.scrollContent.addEventListener('mousedown', (e) => {
-      this.state.isDown = true;
-      this.elements.scrollContent.classList.add('active');
-      this.state.startX = e.pageX - this.elements.scrollContent.offsetLeft;
-      this.state.scrollLeft = this.elements.scrollContent.scrollLeft;
+    // Mouse up anywhere on document
+    document.addEventListener('mouseup', () => {
+      this.isDragging = false;
     });
 
-    this.elements.scrollContent.addEventListener('mouseleave', () => {
-      this.state.isDown = false;
-      this.elements.scrollContent.classList.remove('active');
-    });
-
-    this.elements.scrollContent.addEventListener('mouseup', () => {
-      this.state.isDown = false;
-      this.elements.scrollContent.classList.remove('active');
-    });
-
-    this.elements.scrollContent.addEventListener('mousemove', (e) => {
-      if (!this.state.isDown) return;
-      e.preventDefault();
-      const x = e.pageX - this.elements.scrollContent.offsetLeft;
-      const walk = (x - this.state.startX) * 1.5;
-      this.elements.scrollContent.scrollLeft = this.state.scrollLeft - walk;
-    });
-
-    // Touch functionality
-    this.elements.scrollContent.addEventListener('touchstart', (e) => {
-      this.state.touchStartX = e.touches[0].clientX;
+    // Touch start on container
+    this.container.addEventListener('touchstart', (e) => {
+      this.isDragging = true;
+      this.startX = e.touches[0].pageX - this.currentX;
     }, { passive: true });
 
-    this.elements.scrollContent.addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].clientX;
-      const diff = this.state.touchStartX - touchEndX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) this.scrollByAmount(this.state.itemWidth);
-        else this.scrollByAmount(-this.state.itemWidth);
-      }
+    // Touch move anywhere on document
+    document.addEventListener('touchmove', (e) => {
+      if (!this.isDragging) return;
+      this.currentX = e.touches[0].pageX - this.startX;
+
+      // Loop boundaries
+      if (this.currentX > 0) this.currentX = -this.halfWidth;
+      if (this.currentX < -this.halfWidth) this.currentX = 0;
+
+      this.scrollContent.style.transform = `translateX(${this.currentX}px)`;
     }, { passive: true });
 
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      const gallery = document.querySelector('#gallery');
-      const rect = gallery.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        if (e.key === 'ArrowRight') {
-          this.scrollByAmount(this.state.itemWidth);
-        } else if (e.key === 'ArrowLeft') {
-          this.scrollByAmount(-this.state.itemWidth);
-        }
-      }
+    // Touch end anywhere on document
+    document.addEventListener('touchend', () => {
+      this.isDragging = false;
     });
   }
 };
