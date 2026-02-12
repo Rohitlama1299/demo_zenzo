@@ -1,53 +1,557 @@
- // Hide loader after 3 seconds
-        setTimeout(function() {
-            const loader = document.getElementById('loader');
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
-        }, 3000);
+// --- State ---
+let menuData = null;
+let currentCategory = 'all';
+let currentSearch = '';
+let currentPriceFilter = 'all';
 
-        // Category filtering functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryButtons = document.querySelectorAll('.category-btn');
-            
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const category = this.getAttribute('data-category');
-                    
-                    // Update active button
-                    categoryButtons.forEach(btn => {
-                        btn.classList.remove('active-category');
-                    });
-                    this.classList.add('active-category');
-                    
-                    // Show/hide categories
-                    if (category === 'all') {
-                        document.querySelectorAll('.category-section').forEach(section => {
-                            section.style.display = 'block';
-                        });
-                    } else {
-                        document.querySelectorAll('.category-section').forEach(section => {
-                            section.style.display = 'none';
-                        });
-                        document.getElementById(category).style.display = 'block';
-                    }
-                    
-                    // Scroll to the top of the category
-                    if (category === 'all') {
-                    }
-                });
-            });
+// --- Render helpers ---
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function popularBadgeHtml(item) {
+    if (!item.popular) return '';
+    return '<span class="popular-badge"><i class="fas fa-fire"></i> Popular</span>';
+}
+
+function getItemPrice(item) {
+    // Extract the first numeric price from an item for filtering
+    const fields = [item.price, item.glass, item.bottle];
+    for (const f of fields) {
+        if (f) {
+            const num = parseFloat(f.replace(/[^0-9.]/g, ''));
+            if (!isNaN(num)) return num;
+        }
+    }
+    return null;
+}
+
+function matchesSearch(item, query) {
+    if (!query) return true;
+    const q = query.toLowerCase();
+    const name = (item.name || '').toLowerCase();
+    const desc = (item.desc || '').toLowerCase();
+    return name.includes(q) || desc.includes(q);
+}
+
+function matchesPriceFilter(item, filter) {
+    if (filter === 'all') return true;
+    const price = getItemPrice(item);
+    if (price === null) return true; // show items without clear price
+    if (filter === '0-10') return price < 10;
+    if (filter === '10-15') return price >= 10 && price <= 15;
+    if (filter === '15+') return price > 15;
+    return true;
+}
+
+function filterItems(items) {
+    return items.filter(item =>
+        matchesSearch(item, currentSearch) && matchesPriceFilter(item, currentPriceFilter)
+    );
+}
+
+function renderSimpleItem(item) {
+    const desc = item.desc ? `<p class="text-muted text-sm mt-1">${escapeHtml(item.desc)}</p>` : '';
+    const priceParts = [];
+    if (item.price) priceParts.push(`&euro;${item.price}`);
+    if (item.bottle) priceParts.push(`Bottle: &euro;${item.bottle}`);
+    const priceDisplay = priceParts.join(' / ');
+
+    return `
+        <div class="menu-card p-6 rounded-2xl reveal-card">
+            <div class="flex justify-between items-start">
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h3 class="font-semibold text-xl">${escapeHtml(item.name)}</h3>
+                        ${popularBadgeHtml(item)}
+                    </div>
+                    ${desc}
+                </div>
+                <span class="price text-xl whitespace-nowrap ml-4">${priceDisplay}</span>
+            </div>
+        </div>`;
+}
+
+function renderGlassBottleItem(item) {
+    const desc = item.desc ? `<p class="text-muted text-sm">${escapeHtml(item.desc)}</p>` : '';
+    const badge = item.badge ? `<span class="wine-type-badge text-xs font-semibold px-3 py-1.5 rounded-full">${escapeHtml(item.badge)}</span>` : '';
+    const premiumBadge = item.premium ? '<div class="premium-badge">PREMIUM</div>' : '';
+    const vipRibbon = item.vip ? '<div class="vip-ribbon">VIP</div>' : '';
+    const extraClasses = item.vip ? ' relative overflow-hidden' : '';
+    const popular = popularBadgeHtml(item);
+
+    if (!item.glass && item.bottle) {
+        return `
+            <div class="spirit-card menu-card p-6 rounded-2xl${extraClasses} reveal-card">
+                ${vipRibbon}
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        ${badge}
+                        <div class="flex items-center gap-2 flex-wrap ${badge ? 'mt-3' : ''}">
+                            <h3 class="font-semibold text-xl mb-1">${escapeHtml(item.name)}</h3>
+                            ${popular}
+                        </div>
+                        ${desc}
+                        ${premiumBadge}
+                    </div>
+                    <div class="price text-xl">&euro;${item.bottle}</div>
+                </div>
+            </div>`;
+    }
+
+    if (!item.glass && !item.bottle) {
+        return `
+            <div class="spirit-card menu-card p-6 rounded-2xl${extraClasses} reveal-card">
+                ${vipRibbon}
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        ${badge}
+                        <div class="flex items-center gap-2 flex-wrap ${badge ? 'mt-3' : ''}">
+                            <h3 class="font-semibold text-xl mb-1">${escapeHtml(item.name)}</h3>
+                            ${popular}
+                        </div>
+                        ${desc}
+                        ${premiumBadge}
+                    </div>
+                    <div class="price text-xl">P.O.A.</div>
+                </div>
+            </div>`;
+    }
+
+    let priceHtml = '<div class="glass-bottle-container">';
+    if (item.glass) {
+        priceHtml += `
+            <div class="glass-bottle-item">
+                <div class="text-muted text-xs mb-1">GLASS</div>
+                <div class="price text-lg">&euro;${item.glass}</div>
+            </div>`;
+    }
+    if (item.bottle) {
+        priceHtml += `
+            <div class="glass-bottle-item">
+                <div class="text-muted text-xs mb-1">BOTTLE</div>
+                <div class="price text-lg">&euro;${item.bottle}</div>
+            </div>`;
+    }
+    priceHtml += '</div>';
+
+    return `
+        <div class="spirit-card menu-card p-6 rounded-2xl${extraClasses} reveal-card">
+            ${vipRibbon}
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                    ${badge}
+                    <div class="flex items-center gap-2 flex-wrap ${badge ? 'mt-3' : ''}">
+                        <h3 class="font-semibold text-xl mb-1">${escapeHtml(item.name)}</h3>
+                        ${popular}
+                    </div>
+                    ${desc}
+                    ${premiumBadge}
+                </div>
+            </div>
+            ${priceHtml}
+        </div>`;
+}
+
+function renderCocktailItem(item) {
+    const desc = item.desc ? `<p class="text-muted text-sm mt-1">${escapeHtml(item.desc)}</p>` : '';
+    let priceText = `&euro;${item.price}`;
+    if (item.virgin) priceText += ` / &euro;${item.virgin}`;
+
+    return `
+        <div class="cocktail-card menu-card p-6 rounded-2xl reveal-card">
+            <div class="flex justify-between items-start">
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h3 class="font-semibold text-xl">${escapeHtml(item.name)}</h3>
+                        ${popularBadgeHtml(item)}
+                    </div>
+                    ${desc}
+                    ${item.virgin ? '<p class="text-muted text-xs mt-1">(V) = Virgin/Mocktail available</p>' : ''}
+                </div>
+                <span class="price text-xl whitespace-nowrap ml-4">${priceText}</span>
+            </div>
+        </div>`;
+}
+
+function renderPackageItem(item) {
+    const includesList = item.includes.map(i => `<li>${escapeHtml(i)}</li>`).join('');
+    return `
+        <div class="package-card p-8 rounded-2xl reveal-card">
+            <div class="flex justify-between items-start mb-6">
+                <h3 class="text-2xl font-semibold package-name">${escapeHtml(item.name)}</h3>
+                <span class="price text-3xl">&euro;${item.price}</span>
+            </div>
+            <ul class="list-disc list-inside text-muted space-y-3 text-lg">
+                ${includesList}
+            </ul>
+        </div>`;
+}
+
+// --- Section renderers ---
+
+function renderSimpleSection(cat) {
+    const items = filterItems(cat.items);
+    if (items.length === 0) return '';
+    return `
+        <section id="${cat.id}" class="category-section mb-16 section-transition">
+            <div class="flex items-center mb-8">
+                <div class="icon-container mr-4"><i class="fas ${cat.icon}"></i></div>
+                <h2 class="section-title text-3xl md:text-4xl">${escapeHtml(cat.title)}</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${items.map(renderSimpleItem).join('')}
+            </div>
+        </section>`;
+}
+
+function renderSubcategoriesSection(cat) {
+    let hasItems = false;
+    let subsHtml = '';
+
+    cat.subcategories.forEach((sub, idx) => {
+        const items = filterItems(sub.items);
+        if (items.length === 0) return;
+        hasItems = true;
+        const isLast = idx === cat.subcategories.length - 1;
+        subsHtml += `
+            <h3 class="subcategory-title text-xl font-semibold mb-8">${escapeHtml(sub.title)}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${isLast ? '' : 'mb-12'}">
+                ${items.map(renderGlassBottleItem).join('')}
+            </div>`;
+    });
+
+    if (!hasItems) return '';
+
+    return `
+        <section id="${cat.id}" class="category-section mb-16 section-transition">
+            <div class="flex items-center mb-8">
+                <div class="icon-container mr-4"><i class="fas ${cat.icon}"></i></div>
+                <h2 class="section-title text-3xl md:text-4xl">${escapeHtml(cat.title)}</h2>
+            </div>
+            ${subsHtml}
+        </section>`;
+}
+
+function renderSpiritsSection(cat) {
+    let hasItems = false;
+    let subsHtml = '';
+    const noteHtml = cat.note ? `<p class="text-muted mb-8 text-lg">${escapeHtml(cat.note)}</p>` : '';
+
+    cat.subcategories.forEach((sub) => {
+        const items = filterItems(sub.items);
+        if (items.length === 0) return;
+        hasItems = true;
+        const noteText = sub.note ? `<p class="text-muted mb-6">${escapeHtml(sub.note)}</p>` : '';
+        subsHtml += `
+            <h3 class="subcategory-title text-xl font-semibold mb-8">${escapeHtml(sub.title)}</h3>
+            ${noteText}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                ${items.map(renderGlassBottleItem).join('')}
+            </div>`;
+    });
+
+    if (!hasItems) return '';
+
+    return `
+        <section id="${cat.id}" class="category-section mb-16 section-transition">
+            <div class="flex items-center mb-8">
+                <div class="icon-container mr-4"><i class="fas ${cat.icon}"></i></div>
+                <h2 class="section-title text-3xl md:text-4xl">${escapeHtml(cat.title)}</h2>
+            </div>
+            ${noteHtml}
+            ${subsHtml}
+        </section>`;
+}
+
+function renderPackagesSection(cat) {
+    const items = filterItems(cat.items);
+    if (items.length === 0) return '';
+    return `
+        <section id="${cat.id}" class="category-section mb-16 section-transition">
+            <div class="flex items-center mb-8">
+                <div class="icon-container mr-4"><i class="fas ${cat.icon}"></i></div>
+                <h2 class="section-title text-3xl md:text-4xl">${escapeHtml(cat.title)}</h2>
+            </div>
+            <div class="grid grid-cols-1 gap-8">
+                ${items.map(renderPackageItem).join('')}
+            </div>
+        </section>`;
+}
+
+function renderCocktailsSection(cat) {
+    const items = filterItems(cat.items);
+    if (items.length === 0) return '';
+    return `
+        <section id="${cat.id}" class="category-section mb-16 section-transition">
+            <div class="flex items-center mb-8">
+                <div class="icon-container mr-4"><i class="fas ${cat.icon}"></i></div>
+                <h2 class="section-title text-3xl md:text-4xl">${escapeHtml(cat.title)}</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${items.map(renderCocktailItem).join('')}
+            </div>
+        </section>`;
+}
+
+function renderSection(cat) {
+    switch (cat.type) {
+        case 'simple': return renderSimpleSection(cat);
+        case 'subcategories': return renderSubcategoriesSection(cat);
+        case 'spirits': return renderSpiritsSection(cat);
+        case 'packages': return renderPackagesSection(cat);
+        case 'cocktails': return renderCocktailsSection(cat);
+        default: return renderSimpleSection(cat);
+    }
+}
+
+// --- Category buttons ---
+
+function renderCategoryButtons(categories) {
+    const container = document.getElementById('category-buttons');
+    let html = `
+        <button class="category-btn px-5 py-3 rounded-xl text-sm whitespace-nowrap active-category flex items-center" data-category="all">
+            <i class="fas fa-star mr-2"></i> All Items
+        </button>`;
+
+    categories.forEach(cat => {
+        html += `
+            <button class="category-btn px-5 py-3 rounded-xl text-sm whitespace-nowrap flex items-center" data-category="${cat.id}">
+                <i class="fas ${cat.icon} mr-2"></i> ${escapeHtml(cat.title)}
+            </button>`;
+    });
+
+    container.innerHTML = html;
+}
+
+// --- Full re-render ---
+
+function renderMenu() {
+    const menuContent = document.getElementById('menu-content');
+    const noResults = document.getElementById('no-results');
+    const searchBar = document.getElementById('search-results-bar');
+    const searchText = document.getElementById('search-results-text');
+
+    // Filter categories to show
+    let categoriesToRender = menuData.categories;
+    if (currentCategory !== 'all') {
+        categoriesToRender = categoriesToRender.filter(c => c.id === currentCategory);
+    }
+
+    const html = categoriesToRender.map(renderSection).join('');
+
+    // Fade out, swap, fade in
+    menuContent.classList.add('fading-out');
+
+    setTimeout(() => {
+        menuContent.innerHTML = html;
+
+        // Count visible items
+        const visibleCards = menuContent.querySelectorAll('.reveal-card');
+        const hasResults = visibleCards.length > 0;
+
+        noResults.classList.toggle('hidden', hasResults);
+        menuContent.classList.toggle('hidden', !hasResults);
+
+        // Search results bar
+        if (currentSearch || currentPriceFilter !== 'all') {
+            searchBar.classList.remove('hidden');
+            const parts = [];
+            if (currentSearch) parts.push(`"${currentSearch}"`);
+            if (currentPriceFilter !== 'all') parts.push(`price: ${currentPriceFilter}`);
+            searchText.textContent = `${visibleCards.length} result${visibleCards.length !== 1 ? 's' : ''} for ${parts.join(', ')}`;
+        } else {
+            searchBar.classList.add('hidden');
+        }
+
+        menuContent.classList.remove('fading-out');
+        menuContent.classList.add('fading-in');
+        setTimeout(() => menuContent.classList.remove('fading-in'), 300);
+
+        // Trigger scroll reveal for new cards
+        initScrollReveal();
+    }, 150);
+}
+
+// --- Scroll reveal (staggered fade-in) ---
+
+function initScrollReveal() {
+    const cards = document.querySelectorAll('.reveal-card:not(.revealed)');
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        let delay = 0;
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const card = entry.target;
+                setTimeout(() => {
+                    card.classList.add('revealed');
+                }, delay);
+                delay += 60;
+                observer.unobserve(card);
+            }
         });
-        // Add loader functionality
-// Replace the existing loader JavaScript
-window.addEventListener('load', function() {
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    cards.forEach(card => observer.observe(card));
+}
+
+// --- Category filtering ---
+
+function initCategoryFiltering() {
+    const container = document.getElementById('category-buttons');
+    container.addEventListener('click', (e) => {
+        const btn = e.target.closest('.category-btn');
+        if (!btn) return;
+
+        const category = btn.getAttribute('data-category');
+        currentCategory = category;
+
+        container.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active-category'));
+        btn.classList.add('active-category');
+
+        // Auto-scroll the button bar to keep active button visible
+        btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+        renderMenu();
+
+        // Scroll to top of content
+        if (category === 'all') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            setTimeout(() => {
+                const target = document.getElementById(category);
+                if (target) {
+                    const header = document.querySelector('header');
+                    const headerHeight = header.offsetHeight;
+                    const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
+                    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                }
+            }, 200);
+        }
+    });
+}
+
+// --- Search ---
+
+function initSearch() {
+    const input = document.getElementById('search-input');
+    const clearBtn = document.getElementById('search-clear');
+    const resultsClearBtn = document.getElementById('search-results-clear');
+    let debounceTimer;
+
+    input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            currentSearch = input.value.trim();
+            clearBtn.classList.toggle('hidden', !currentSearch);
+            renderMenu();
+        }, 250);
+    });
+
+    clearBtn.addEventListener('click', () => {
+        input.value = '';
+        currentSearch = '';
+        clearBtn.classList.add('hidden');
+        renderMenu();
+    });
+
+    resultsClearBtn.addEventListener('click', () => {
+        input.value = '';
+        currentSearch = '';
+        currentPriceFilter = 'all';
+        clearBtn.classList.add('hidden');
+        document.querySelectorAll('.price-option').forEach(o => o.classList.remove('active'));
+        document.querySelector('.price-option[data-price="all"]').classList.add('active');
+        renderMenu();
+    });
+}
+
+// --- Price Filter ---
+
+function initPriceFilter() {
+    const btn = document.getElementById('price-filter-btn');
+    const dropdown = document.getElementById('price-dropdown');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+        dropdown.classList.add('hidden');
+    });
+
+    dropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const option = e.target.closest('.price-option');
+        if (!option) return;
+
+        dropdown.querySelectorAll('.price-option').forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+        currentPriceFilter = option.getAttribute('data-price');
+        dropdown.classList.add('hidden');
+
+        // Update button appearance
+        btn.classList.toggle('price-filter-active', currentPriceFilter !== 'all');
+
+        renderMenu();
+    });
+}
+
+// --- Theme toggle ---
+
+function initTheme() {
+    const toggle = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const saved = localStorage.getItem('zenzo-theme') || 'dark';
+
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved, icon);
+
+    toggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('zenzo-theme', next);
+        updateThemeIcon(next, icon);
+    });
+}
+
+function updateThemeIcon(theme, icon) {
+    if (theme === 'dark') {
+        icon.className = 'fas fa-sun';
+    } else {
+        icon.className = 'fas fa-moon';
+    }
+}
+
+// --- Init ---
+
+function initMenu(data) {
+    menuData = data;
+    renderCategoryButtons(data.categories);
+    renderMenu();
+    initCategoryFiltering();
+    initSearch();
+    initPriceFilter();
+    initTheme();
+}
+
+fetch('data/menu.json')
+    .then(res => res.json())
+    .then(data => initMenu(data));
+
+// --- Loader ---
+window.addEventListener('load', function () {
     const loader = document.getElementById('loader');
     const content = document.querySelector('main');
-    
-    // Initially hide main content
+
     content.style.opacity = '0';
-    
+
     setTimeout(() => {
         loader.style.opacity = '0';
         setTimeout(() => {
@@ -58,59 +562,22 @@ window.addEventListener('load', function() {
     }, 2500);
 });
 
-// Replace the existing scroll JavaScript with this version
-let lastScroll = 0;
+// --- Scroll behavior ---
 const logo = document.querySelector('.logo-container');
-const scrollThreshold = 50;
-let ticking = false;
+const scrollThreshold = 100;
+let logoHidden = false;
 
-// Update the scroll event listener in your JavaScript
 window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            const currentScroll = window.pageYOffset;
-            const header = document.querySelector('.header-gradient');
-            
-            if (currentScroll <= 0) {
-                logo.classList.remove('logo-hidden');
-                header.classList.add('header-with-logo');
-            } else if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
-                logo.classList.add('logo-hidden');
-                header.classList.remove('header-with-logo');
-            } else if (currentScroll < lastScroll) {
-                logo.classList.remove('logo-hidden');
-                header.classList.add('header-with-logo');
-            }
-            
-            lastScroll = currentScroll;
-            ticking = false;
-        });
-        ticking = true;
+    const currentScroll = window.pageYOffset;
+    if (currentScroll <= 10 && logoHidden) {
+        logoHidden = false;
+        logo.classList.remove('logo-hidden');
+    } else if (currentScroll > scrollThreshold && !logoHidden) {
+        logoHidden = true;
+        logo.classList.add('logo-hidden');
     }
-});
+}, { passive: true });
 
-// Update the touch event handler similarly
-document.addEventListener('touchmove', e => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            const touchEnd = e.touches[0].clientY;
-            const deltaY = touchEnd - touchStart;
-            const header = document.querySelector('.header-gradient');
-            if (deltaY < -scrollThreshold && window.pageYOffset > scrollThreshold) {
-                logo.classList.add('logo-hidden');
-                header.classList.remove('header-with-logo');
-            } else if (deltaY > scrollThreshold || window.pageYOffset <= 0) {
-                logo.classList.remove('logo-hidden');
-                header.classList.add('header-with-logo');
-            }
-            ticking = false;
-        });
-        ticking = true;
-    }
-});
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
