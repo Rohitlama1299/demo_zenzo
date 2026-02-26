@@ -10,6 +10,7 @@
         { "name": "Val Orange / 7-UP / Val Ice Tea", "price": "3.50" },
         { "name": "Val Plat / Val Bruis", "price": "3.50" },
         { "name": "Looza Orange / Appel / Ananas / Appel Cherry", "price": "4.00" },
+        { "name": "Appletiser / Ginger Ale", "price": "4.00" },
         { "name": "Red bull / Red bull sugarfree", "price": "4.00", "popular": true },
         { "name": "Redbull / Watermelon", "price": "5.00" },
         { "name": "Big Tom Tomato Juice", "desc": "spicy", "price": "7.00" },
@@ -28,12 +29,12 @@
         { "name": "Cappuccino + whipped cream", "price": "4.00 + 0.50", "popular": true },
         { "name": "Caffè latte", "price": "4.50" },
         { "name": "Hot choco + whipped cream", "price": "5.00 + 0.50" },
-        { "name": "Latte machiato + sirop/ speculoos / hazelnut/ Caramel", "price": "5.50 + 0.50" },
+        { "name": "Latte machiato + Speculoos / Hazelnut/ Caramel", "price": "5.50 + 0.50" },
         { "name": "Tea", "desc": "Green / Mint / Earl Grey / English Breakfast / Fruit", "price": "3.50" },
         { "name": "Fresh mint / Fresh Ginger Tea", "price": "5.00" },
         { "name": "Irish coffee", "desc": "Whiskey", "price": "10.00", "popular": true },
-        { "name": "Italian coffee", "desc": "Baileys", "price": "10.00" },
-        { "name": "Baileys coffee", "desc": "Amaretto", "price": "10.00" },
+        { "name": "Italian coffee", "desc": "Amaretto", "price": "10.00" },
+        { "name": "Baileys coffee", "desc": "Baileys", "price": "10.00" },
         { "name": "French coffee", "desc": "Grand Marnier", "price": "10.00" },
         { "name": "Hot choco", "desc": "Baileys/Rum", "price": "10.00" }
       ]
@@ -46,12 +47,12 @@
       "items": [
         { "name": "Primus 5.2° 0.25 / 0.50", "price": "3.50 / 7.00" },
         { "name": "Primus 1 meter (11 stuks)", "price": "35.00" },
-        { "name": "Tangerio Blond 6° 0.33 / 0.50", "price": "5.00 / 9.00" },
-        { "name": "Tangerio Bruin 6.5° 0.33 / 0.50", "price": "5.50 / 9.50" },
+        { "name": "Tongerlo Blond 6° 0.33 / 0.50", "price": "5.00 / 9.00" },
+        { "name": "Tongerlo Bruin 6.5° 0.33 / 0.50", "price": "5.50 / 9.50" },
         { "name": "Super 8 Blanche (wit) 5.1° 0.33 / 0.50", "price": "5.00 / 9.00" },
         { "name": "Mystic Kriek 0.33 / 0.50", "price": "5.00 / 9.00" },
-        { "name": "Tangerio Christmas / (Beer of the Month)", "price": "5.50 / 10.00" },
-        { "name": "Bier Heating 6", "price": "30.00" }
+        { "name": "Tongerlo Christmas / (Beer of the Month)", "price": "5.50 / 10.00" },
+        { "name": "Bier Testing 6", "price": "30.00" }
       ]
     },
     {
@@ -62,15 +63,15 @@
       "items": [
         { "name": "Charles Quint Blond 8.5°", "price": "6.50" },
         { "name": "Charles Quint Robijnrood 8.5°", "price": "6.50" },
-        { "name": "Ommegäng Triple 8°", "price": "6.50" },
+        { "name": "Ommegang Triple 8°", "price": "6.50" },
         { "name": "Super 8 ROUGE 7.5°", "price": "6.50" },
-        { "name": "Super 8 Rouge 0.0", "price": "6.50" },
-        { "name": "Super 8 Ipa 8°", "price": "6.00" },
-        { "name": "Super 8 Frost Blond 6°", "price": "6.00" },
+        { "name": "Super 8 Rouge 0.0º", "price": "6.50" },
+        { "name": "Super 8 Ipa 6°", "price": "6.00" },
+        { "name": "Brugse Zot Blond 6°", "price": "6.00" },
         { "name": "Omer 8°", "price": "6.00" },
         { "name": "Duvel 8.5°", "price": "6.00", "popular": true },
-        { "name": "Tangerio Triple 9°", "price": "7.00" },
-        { "name": "Primus 0,4", "price": "4.50" }
+        { "name": "Tongerlo Triple 9°", "price": "7.00" },
+        { "name": "Primus 0,4º", "price": "4.50" }
       ]
     },
     {
@@ -94,8 +95,8 @@
         { "name": "Ricard", "price": "8.00" },
         { "name": "Carpano Antica Formula Vermouth", "price": "9.00" },
         { "name": "Kir Vin Blanc", "price": "9.00" },
-        { "name": "Kir Royal", "price": "9.50" },
-        { "name": "Lillet Rosé on the rock", "price": "10.00" },
+        { "name": "Kir Royal", "price": "8.50" },
+        { "name": "St-Germain on the rock", "price": "9.50" },
         { "name": "Lillet Rosé Spritz", "price": "12.00" },
         { "name": "Lillet Blanc Spritz", "price": "12.00" },
         { "name": "Campari Orange", "price": "11.00" },
@@ -134,9 +135,9 @@
             { "name": "Moët &Chandon Ice Imperial", "badge": "SPECIAL", "bottle": "130.00" },
             { "name": "Moët &Chandon Ice Imperial 1.5L", "badge": "MAGNUM", "bottle": "250.00" },
             { "name": "Moët &Chandon Ice Imperial 3L", "badge": "JEROBOAM", "bottle": "650.00" },
-            { "name": "Moët &Chandon Magnum", "badge": "MAGNUM", "bottle": "160.00" },
+            { "name": "laurent Perier Rosé", "badge": "MAGNUM", "bottle": "160.00" },
             { "name": "Ruinart Blanc de Blancs", "badge": "PREMIUM", "bottle": "170.00" },
-            { "name": "Ruinart Blanc de Blancs 1.5", "badge": "MAGNUM", "bottle": "300.00" },
+            { "name": "Ruinart Blanc de Blancs 1.5", "badge": "MAGNUM", "bottle": "340.00" },
             { "name": "Dom Pérignon Luminous", "badge": "LUXURY", "bottle": "350.00", "vip": true },
             { "name": "Dom Pérignon Luminous 1.5", "badge": "LUXURY", "bottle": "770.00", "vip": true },
             { "name": "Dom Pérignon Rosé Luminous", "badge": "EXCLUSIVE", "bottle": "620.00", "vip": true },
@@ -157,10 +158,10 @@
         {
           "title": "House Wines",
           "items": [
-            { "name": "Chok de Rimayu", "badge": "ROSÉ", "glass": "5.50", "bottle": "30.00" },
+            { "name": "Choix de Rimay", "badge": "ROSÉ", "glass": "5.50", "bottle": "30.00" },
             { "name": "Symbiose Sauvignon Blanc", "badge": "WHITE", "glass": "5.50", "bottle": "30.00" },
-            { "name": "Chok de Rimayu Chardonnay", "badge": "WHITE", "glass": "5.50", "bottle": "30.00" },
-            { "name": "Chok de Rimayu Merlot", "badge": "RED", "glass": "5.50", "bottle": "30.00" },
+            { "name": "Choix de Rimay Chardonnay", "badge": "WHITE", "glass": "5.50", "bottle": "30.00" },
+            { "name": "Choix de Rimay Merlot", "badge": "RED", "glass": "5.50", "bottle": "30.00" },
             { "name": "Symbiose Syrah", "badge": "RED", "glass": "5.50", "bottle": "30.00" }
           ]
         },
@@ -186,7 +187,7 @@
           "title": "Rum",
           "note": "Incl. soft drinks energy drinks + € 0.50 by glass / € 5.00 by bottle",
           "items": [
-            { "name": "Bacardi Carta Blanco", "glass": "12.00", "bottle": "120.00" },
+            { "name": "Bacardi Carta Blanca", "glass": "12.00", "bottle": "120.00" },
             { "name": "Bacardi Carta Blanca 3L", "bottle": "470.00" },
             { "name": "Bacardi Razz", "bottle": "120.00" },
             { "name": "Bacardi Spiced", "glass": "12.00", "bottle": "120.00" },
@@ -209,8 +210,8 @@
             { "name": "Grey Goose Altius", "bottle": "295.00" },
             { "name": "Grey Goose 1.5L", "bottle": "275.00" },
             { "name": "Grey Goose 3L", "bottle": "585.00" },
-            { "name": "Grey Goose 4.5L", "bottle": "1050.00" },
-            { "name": "Grey Goose 6L", "bottle": "1580.00" },
+            { "name": "Grey Goose 4.5L", "bottle": "1085.00" },
+            { "name": "Grey Goose 6L", "bottle": "1550.00" },
             { "name": "Crystal Head", "bottle": "170.00", "premium": true },
             { "name": "Crystal Head 1.5L", "bottle": "450.00" },
             { "name": "Crystal Head 3L", "bottle": "680.00" }
@@ -259,12 +260,11 @@
             { "name": "William Lawson's", "glass": "12.00", "bottle": "120.00" },
             { "name": "Johnnie Walker Black", "glass": "14.50", "bottle": "145.00" },
             { "name": "Jack Daniels", "glass": "12.50", "bottle": "130.00", "popular": true },
-            { "name": "Jack Daniels Honey / Appel", "glass": "13.00", "bottle": "130.00" },
-            { "name": "Cognac Hennessy", "glass": "15.00", "bottle": "135.00" },
-            { "name": "Cognac", "glass": "13.00", "bottle": "140.00" },
-            { "name": "Chivas Regal", "glass": "12.00", "bottle": "120.00" },
-            { "name": "Dewar's Caribbean", "glass": "14.50", "bottle": "145.00" },
-            { "name": "Dewar's 12 Years", "glass": "16.50", "bottle": "160.00" },
+            { "name": "Jack Daniels Honey / Appel", "glass": "13.00", "bottle": "135.00" },
+            { "name": "Cognac Hennessy", "glass": "13.00", "bottle": "140.00" },
+            { "name": "Cognac", "glass": "12.00", "bottle": "120.00" },
+            { "name": "Chivas Regal", "glass": "14.50", "bottle": "145.00" },
+            { "name": "Dewar's Caribbean", "glass": "12.50", "bottle": "125.00" },
             { "name": "Dewar's 12 Years", "glass": "17.00", "bottle": "170.00" },
             { "name": "Glen Morey 18 Years", "glass": "19.00", "bottle": "210.00", "premium": true }
           ]
@@ -280,11 +280,11 @@
         { "name": "Jägermeister", "price": "5.00", "bottle": "120.00" },
         { "name": "Jägerbomb", "price": "7.50", "popular": true },
         { "name": "Tequila", "price": "5.00" },
-        { "name": "Tequila Bonita", "price": "7.00" },
+        { "name": "Patrón Tequila", "price": "7.00" },
         { "name": "Rocket shot", "price": "4.50", "bottle": "70.00" },
         { "name": "Get 27", "price": "4.50" },
         { "name": "Sambuca", "price": "5.00", "bottle": "110.00" },
-        { "name": "Licor 43", "price": "6.00", "bottle": "120.00" },
+        { "name": "Licor 43", "price": "5.00", "bottle": "120.00" },
         { "name": "Jack Honey / Appel", "price": "6.00" },
         { "name": "Limoncello", "price": "5.00" },
         { "name": "Fillers Lemon / Chocolate / Cavilion / Vanille", "price": "4.50" },
